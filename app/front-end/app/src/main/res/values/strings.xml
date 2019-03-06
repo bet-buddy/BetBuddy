@@ -13,6 +13,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="icon_email">&#xf0e0;</string>
+    <string name="icon_password">&#xf084;</string>
+    <string name="icon_user">&#xf2bd;</string>
+    <string name="icon_lock">&#xf023;</string>
+    <string name="icon_checkbox_checked">&#xf046;</string>
+    <string name="icon_eye">&#xf06e;</string>
+    <string name="icon_eye_closed">&#xf070;</string>
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
 
@@ -103,4 +110,9 @@
     <string name="category_2">Sport</string>
     <string name="category_3">School</string>
     <string name="category_4">Other</string>
+    <string name="featured">Featured Bets</string>
+    <string name="stats">Statistics</string>
+    <string name="pers_content">Personal</string>
+    <string name="chat">Groups</string>
+    <string name="exit">Log Out</string>
 </resources>
