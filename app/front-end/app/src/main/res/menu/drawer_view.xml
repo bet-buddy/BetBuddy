@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/pers_item"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/pers_content" />
+        <item
+            android:id="@+id/feat_item"
+            android:icon="@drawable/ic_explore_black_24dp"
+            android:title="@string/featured" />
+        <item
+            android:id="@+id/stats_item"
+            android:icon="@drawable/ic_show_chart_black_24dp"
+            android:title="@string/stats" />
+        <item
+            android:id="@+id/chat_item"
+            android:icon="@drawable/ic_chat_black_24dp"
+            android:title="@string/chat" />
+
+
+    </group>
+    <item
+        android:id="@+id/exit"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/exit" />
+</menu>

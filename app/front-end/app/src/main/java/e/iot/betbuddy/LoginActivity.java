@@ -68,8 +68,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
                 .setIsSmartLockEnabled(!BuildConfig.DEBUG)
                 .setAvailableProviders(Arrays.asList(
+                        new AuthUI.IdpConfig.GoogleBuilder().build(),
                         new AuthUI.IdpConfig.EmailBuilder().build(),
-                        new AuthUI.IdpConfig.GoogleBuilder().build()))
+                        new AuthUI.IdpConfig.AnonymousBuilder().build()))
                 .setLogo(R.mipmap.ic_launcher)
                 .build();
 
@@ -78,12 +79,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            // Signed in
-            mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
-            mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
-
-            findViewById(R.id.signInButton).setVisibility(View.GONE);
-            findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+//            // Signed in
+//            mStatusView.setText(getString(R.string.firebaseui_status_fmt, user.getEmail()));
+//            mDetailView.setText(getString(R.string.id_fmt, user.getUid()));
+//
+//            findViewById(R.id.signInButton).setVisibility(View.GONE);
+//            findViewById(R.id.signOutButton).setVisibility(View.VISIBLE );
         } else {
             // Signed out
             mStatusView.setText(R.string.sign_out);
