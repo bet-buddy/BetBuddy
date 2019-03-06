@@ -35,6 +35,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="paddingPercent" value="10" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -45,8 +46,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="D:\Gatech\MAS\icons8-combo-chart-24.png" />
-                                      <entry key="outputName" value="ic_stats" />
+                                      <entry key="imageAsset" value="D:\Gatech\MAS\BetBuddy (1).png" />
+                                      <entry key="outputName" value="ic_launch" />
                                       <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="ffffff" />
                                     </map>
@@ -70,6 +71,11 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="foregroundImage" value="D:\Gatech\MAS\BetBuddy (1).png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -117,11 +123,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
