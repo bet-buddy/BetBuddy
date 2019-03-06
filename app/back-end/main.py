@@ -4,10 +4,13 @@ import requests
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
+from flask import Flask
 
 API_KEY = 'a31718bb64296d9f4f3b529e317ab7ff'
 SPORT_KEY = 'soccer_epl'
 BET365 = 5
+
+app = Flask(__name__)
 
 # Fetch the service account key JSON file contents
 cred = credentials.Certificate('./bet-buddy-odds-firebase-adminsdk.json')
@@ -45,7 +48,7 @@ else:
     #print(odds_json['data'][0])
     print('Remaining requests', odds_response.headers['x-requests-remaining'])
     print('Used requests', odds_response.headers['x-requests-used'])
-    for x in range(0, len(odds_json['data']) - 1):
+    for x in range(0, len(odds_json['data'])):
         odds = odds_json['data'][x]
         odds_list.append(parseEvent(odds_json['data'][x]));
 
