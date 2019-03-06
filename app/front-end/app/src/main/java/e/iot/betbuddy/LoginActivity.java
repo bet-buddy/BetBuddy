@@ -2,23 +2,41 @@ package e.iot.betbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.data.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int RC_SIGN_IN = 9001;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private FirebaseAuth mAuth;
 
@@ -62,6 +80,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void checkForUserInDb() {
+        final String UID = mAuth.getCurrentUser().getUid();
+        final String name = mAuth.getCurrentUser().getDisplayName();
+        db.collection("users").whereEqualTo("UID",UID).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        QuerySnapshot q = task.getResult();
+                        List<DocumentSnapshot > documentList = q.getDocuments();
+                        DocumentSnapshot d = documentList.get(0);
+                        Log.d("FIREBASE",""+documentList);
+                        if(d.getData().get("UID")==UID) {
+                                Log.d("FIREBASE","retrieved "+d.getData());
+                        }
+                        else {Map<Object,Object> newUser = new HashMap<>();
+                            newUser.put("UID",UID);
+                            newUser.put("name",name);
+                            db.collection("users").add(newUser).addOnSuccessListener(
+                                    new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d("FIREBASE","newUser successfully added");
+                                        }
+                                    }
+                            ).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("FIREBASE","failed to add user");
+                                }
+                            });
+                        }
+                    }
+
+                });
+    }
+
+
+
     private void startSignIn() {
         // Build FirebaseUI sign in intent. For documentation on this operation and all
         // possible customization see: https://github.com/firebase/firebaseui-android
@@ -74,11 +130,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .setLogo(R.mipmap.ic_launcher)
                 .build();
 
+
+
         startActivityForResult(intent, RC_SIGN_IN);
     }
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
+            this.checkForUserInDb();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
