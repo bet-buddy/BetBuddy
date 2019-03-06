@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
                         if(menuItem.getItemId() == R.id.exit) {
                             signOut();
                         }
+
+                        if(menuItem.getItemId() == R.id.chat_item) {
+                            startActivity(new Intent(MainActivity.this,GroupActivity.class));
+                        }
                         return true;
                     }
                 });

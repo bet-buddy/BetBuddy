@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.data.model.User;
+import e.iot.betbuddy.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,38 +83,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void checkForUserInDb() {
         final String UID = mAuth.getCurrentUser().getUid();
         final String name = mAuth.getCurrentUser().getDisplayName();
-        db.collection("users").whereEqualTo("UID",UID).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("users").document(UID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        QuerySnapshot q = task.getResult();
-                        List<DocumentSnapshot > documentList = q.getDocuments();
-                        DocumentSnapshot d = documentList.get(0);
-                        Log.d("FIREBASE",""+documentList);
-                        if(d.getData().get("UID")==UID) {
-                                Log.d("FIREBASE","retrieved "+d.getData());
-                        }
-                        else {Map<Object,Object> newUser = new HashMap<>();
-                            newUser.put("UID",UID);
-                            newUser.put("name",name);
-                            db.collection("users").add(newUser).addOnSuccessListener(
-                                    new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Log.d("FIREBASE","newUser successfully added");
-                                        }
-                                    }
-                            ).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.e("FIREBASE","failed to add user");
-                                }
-                            });
-                        }
-                    }
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                });
+                        User user = documentSnapshot.toObject(User.class);
+
+                        if(user!=null) Log.d("FIREBASE","already existing doc : "+user.getUid());
+                        else{
+                            Map<Object,Object> newUser = new HashMap<>();
+                            newUser.put("uid",UID);
+                            newUser.put("name",name);
+                            db.collection("users").document(UID).set(newUser);
+                        }
+
+                }})
+
+        ;
     }
+
 
 
 
