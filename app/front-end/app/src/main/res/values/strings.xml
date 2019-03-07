@@ -115,4 +115,5 @@
     <string name="pers_content">Personal</string>
     <string name="chat">Groups</string>
     <string name="exit">Log Out</string>
+    <string name="textview">textView</string>
 </resources>

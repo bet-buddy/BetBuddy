@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
 
-                        if(menuItem.getItemId() == R.id.exit) {
+                        if (menuItem.getItemId() == R.id.exit) {
                             signOut();
                         }
 
-                        if(menuItem.getItemId() == R.id.chat_item) {
-                            startActivity(new Intent(MainActivity.this,GroupActivity.class));
+                        if (menuItem.getItemId() == R.id.chat_item) {
+                            startActivity(new Intent(MainActivity.this, GroupActivity.class));
                         }
                         return true;
                     }
@@ -78,12 +78,13 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void signOut() {
         AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Intent intent;
-                intent = new Intent(MainActivity.this,LoginActivity.class);
+                intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

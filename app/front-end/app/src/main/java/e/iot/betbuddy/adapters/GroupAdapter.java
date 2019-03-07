@@ -1,10 +1,13 @@
 package e.iot.betbuddy.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import e.iot.betbuddy.R;
+import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.Group;
 import e.iot.betbuddy.model.User;
 
@@ -25,51 +30,55 @@ public class GroupAdapter extends BaseAdapter {
 
     private List<Group> groups = new ArrayList<>();
     private Context context;
+
     public GroupAdapter(Context context) {
         super();
         this.context = context;
+        getGroups();
     }
-//
-//    private void getGroups() {
-//        final String uid = mAuth.getCurrentUser().getUid();
-//        final String name = mAuth.getCurrentUser().getDisplayName();
-//        db.collection("").document(uid).get()
-//                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//
-//                        User user = documentSnapshot.toObject(User.class);
-//
-//                        if(user!=null) Log.d("FIREBASE","already existing doc : "+user.getUid());
-//                        else{
-//                            Map<Object,Object> newUser = new HashMap<>();
-//                            newUser.put("uid",uid);
-//                            newUser.put("name",name);
-//                            db.collection("users").document(uid).set(newUser);
-//                        }
-//
-//                    }})
-//
-//        ;
-//    }
+
+    //
+    private void getGroups() {
+        User user = (User)(DataHolder.getInstance().retrieve("user"));
+        if(user!=null && user.getGroupList()!= null) {
+            Log.d("FIREBASE",""+user);
+            this.groups = user.getGroupList();
+        }
+    }
+
+
 
     @Override
     public int getCount() {
-        return 0;
+        return this.groups.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return this.groups.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
+    @SuppressLint("ViewHolder")
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View rowMain = layoutInflater.inflate(R.layout.group_adapter,parent,false);
+
+        TextView groupNameTextView = rowMain.findViewById(R.id.groupname_textview);
+
+        groupNameTextView.setText(groups.get(position).group);
+
+        TextView contentTextView = rowMain.findViewById(R.id.content_TextView);
+
+        contentTextView.setText(groups.get(position).gid);
+
+
         return null;
     }
 }

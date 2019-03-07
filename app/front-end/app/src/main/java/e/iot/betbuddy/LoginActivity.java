@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+
+import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,6 +32,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 /**
  * A login screen that offers login via email/password.
@@ -90,12 +93,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         User user = documentSnapshot.toObject(User.class);
 
-                        if(user!=null) Log.d("FIREBASE","already existing doc : "+user.getUid());
+                        if(user!=null) {
+                            DataHolder.getInstance().save("user",user);
+                            Log.d("FIREBASE","already existing doc : "+user.getUid());
+                        }
                         else{
                             Map<Object,Object> newUser = new HashMap<>();
                             newUser.put("uid",UID);
                             newUser.put("name",name);
                             db.collection("users").document(UID).set(newUser);
+                            DataHolder.getInstance().save("user",newUser);
                         }
 
                 }})
