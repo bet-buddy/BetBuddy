@@ -81,7 +81,7 @@ public class GroupActivity extends AppCompatActivity {
                             signOut();
                         }
                         if(menuItem.getItemId() == R.id.feat_item) {
-                            startActivity(new Intent(GroupActivity.this,MainActivity.class));
+                            startActivity(new Intent(GroupActivity.this, BetActivity.class));
                         }
                         return true;
                     }

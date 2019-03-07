@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".BetActivity"
-            android:label="@string/title_activity_bet"></activity>
+            android:label="@string/title_activity_bet" />
         <activity
             android:name=".MessageActivity"
             android:label="@string/title_activity_message" />
