@@ -33,6 +33,7 @@ public class GroupAdapter extends BaseAdapter {
 
     public GroupAdapter(Context context) {
         super();
+
         this.context = context;
         getGroups();
     }
@@ -64,7 +65,7 @@ public class GroupAdapter extends BaseAdapter {
     }
 
     @Override
-    @SuppressLint("ViewHolder")
+    @SuppressLint({"ViewHolder","SetTextI18n"})
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -78,7 +79,6 @@ public class GroupAdapter extends BaseAdapter {
 
         contentTextView.setText(groups.get(position).gid);
 
-
-        return null;
+        return rowMain;
     }
 }

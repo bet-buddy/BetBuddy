@@ -9,7 +9,7 @@ public class User {
         this.uid = uid;
     }
 
-    public void setGroupList(List<Group> groupList) {
+    public void setGroupList(ArrayList<Group> groupList) {
         this.groupList = groupList;
     }
 
@@ -18,7 +18,7 @@ public class User {
     }
 
     private String uid="";
-    private List<Group> groupList=new ArrayList<>();
+    private ArrayList<Group> groupList=new ArrayList<>();
     private String name="";
     public User(){}
 //    public User(String uid,List<Group> groupList,String name) {

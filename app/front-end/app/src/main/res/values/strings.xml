@@ -116,4 +116,6 @@
     <string name="chat">Groups</string>
     <string name="exit">Log Out</string>
     <string name="textview">textView</string>
+    <string name="title_activity_messages">MessagesActivity</string>
+    <string name="title_activity_message">MessageActivity</string>
 </resources>
