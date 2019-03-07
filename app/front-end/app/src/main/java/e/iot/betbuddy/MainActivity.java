@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
                         if (menuItem.getItemId() == R.id.chat_item) {
                             startActivity(new Intent(MainActivity.this, GroupActivity.class));
                         }
+
+                        if (menuItem.getItemId() == R.id.feat_item) {
+                            startActivity(new Intent(MainActivity.this, BetActivity.class));
+                        }
                         return true;
                     }
                 });
