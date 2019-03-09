@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#EAAA00</color>
-    <color name="colorPrimaryDark">#B3A369</color>
-    <color name="colorAccent">#003057</color>
-    <color name="colorBackground">#FFFFFF</color>
-    <color name="grey_100">#F5F5F5</color>
-    <color name="grey_300">#E0E0E0</color>
-    <color name="grey_500">#9E9E9E</color>
+    <color name="colorPrimary">@color/Blue</color>
+    <color name="colorPrimaryDark">@color/LinkBlue</color>
+    <color name="colorAccent">@color/TechGold</color>
+    <color name="colorBackground">@color/LightGray</color>
+    <color name="grey_100">@color/LightGray</color>
+    <color name="grey_300">@color/MediumGray</color>
+    <color name="grey_500">@color/DarkGray</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#003057</color>
+
+    <!--Real Gatech colors -->
+    <color name="TechGold">#B3A369</color>
+    <color name="BuzzGold">#EAAA00</color>
+    <color name="BuzzGold60">#F5D580</color>
+    <color name="Blue">#003057</color>
+    <color name="Blue80">#335161</color>
+    <color name="LinkBlue">#004F9F</color>
+    <color name="LinkHoverBlue">#1879DB</color>
+    <color name="DarkGray">#545454</color>
+    <color name="MediumGray">#808080</color>
+    <color name="LightGray">#E5E5E5</color>
 
 </resources>
