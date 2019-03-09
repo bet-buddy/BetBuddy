@@ -1,83 +1,45 @@
 package e.iot.betbuddy;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.EditText;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.type.Date;
+
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.UUID;
 
 import e.iot.betbuddy.adapters.MessageAdapter;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.Group;
-import e.iot.betbuddy.model.Message;
+import e.iot.betbuddy.model.User;
 
-public class MessageActivity extends AppCompatActivity {
-
-    MessageAdapter messageAdapter;
-    Group lightweightGroup;
-    Group group;
+public class WritingActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-    private void retrieveGroupFromDb() {
-        Log.d("retriving","Retrieving group from firestore");
-        db.collection("groups").document(lightweightGroup.gid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Log.d("FFFFFF","SUCCESSS!!!!!");
-                        group = documentSnapshot.toObject(Group.class);
-
-                        Log.d("FIREBASE",""+group.messages.get(0));
-
-                        messageAdapter  = new MessageAdapter(group,MessageActivity.this);
-
-
-
-                        ListView messageListView = findViewById(R.id.messages_ListView);
-                        messageListView.setAdapter(messageAdapter);
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("Firestore","REQUEST TO FIRESTORE FAILED!!!!!");
-                    }
-                });
-    }
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
-
-
-        lightweightGroup = (Group)(DataHolder.getInstance().retrieve("group"));
-
-        retrieveGroupFromDb();
-
-
-
-
-
+        setContentView(R.layout.activity_writing);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,10 +67,10 @@ public class MessageActivity extends AppCompatActivity {
                             signOut();
                         }
                         if(menuItem.getItemId() == R.id.feat_item) {
-                            startActivity(new Intent(MessageActivity.this,MainActivity.class));
+                            startActivity(new Intent(WritingActivity.this,MainActivity.class));
                         }
                         if(menuItem.getItemId() == R.id.chat_item) {
-                            startActivity(new Intent(MessageActivity.this,GroupActivity.class));
+                            startActivity(new Intent(WritingActivity.this,GroupActivity.class));
                         }
                         return true;
                     }
@@ -129,14 +91,37 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Intent intent;
-                intent = new Intent(MessageActivity.this,LoginActivity.class);
+                intent = new Intent(WritingActivity.this,LoginActivity.class);
                 startActivity(intent);
             }
         });
     }
+    @SuppressLint("PrivateResource")
 
-    public void onClick(View View) {
-        Intent intent = new Intent(MessageActivity.this,WritingActivity.class);
-        startActivity(intent);
+    public void sendMessage(View view) {
+        HashMap<String,Object> message = new HashMap<>();
+        User user = (User) DataHolder.getInstance().retrieve("user");
+        EditText titleEditText = findViewById(R.id.title_editText);
+        EditText contentEditText = findViewById(R.id.enter_message_editText);
+
+        message.put("author",user.getName());
+        message.put("title",titleEditText.getText().toString());
+        message.put("content",contentEditText.getText().toString());
+
+        String mid = UUID.randomUUID().toString();
+
+        message.put("mid",mid);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        message.put("timestamp",timestamp);
+
+        Group group = (Group)(DataHolder.getInstance().retrieve("group"));
+        DocumentReference documentReference = db.collection("groups").document(group.gid);
+        documentReference.update("messages", FieldValue.arrayUnion(message));
+
+
+        startActivity(new Intent(WritingActivity.this,MessageActivity.class));
     }
+
 }
