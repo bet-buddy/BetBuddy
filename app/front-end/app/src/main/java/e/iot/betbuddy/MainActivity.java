@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,17 +18,67 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import e.iot.betbuddy.model.League;
+import e.iot.betbuddy.model.Leagues;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+
+    private void retrieveData() {
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://www.thesportsdb.com/api/v1/json/1/all_leagues.php";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JsonParser parser = new JsonParser();
+                        JsonElement mJson = parser.parse(response.toString());
+                        Gson gson = new Gson();
+                        Leagues myLeagues =  gson.fromJson(mJson, Leagues.class);
+                        Log.d("HTTP","leagues : "+myLeagues);
+                        Log.d("HTTP","Response: " + response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Log.e("HTTP","HTTP request fails");
+
+                    }
+                });
+
+// Access the RequestQueue through your singleton class.
+        queue.add(jsonObjectRequest);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +86,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        retrieveData();
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+
+
+
+
 
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
