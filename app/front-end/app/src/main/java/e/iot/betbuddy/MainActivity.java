@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                         JsonParser parser = new JsonParser();
                         JsonElement mJson = parser.parse(response.toString());
                         Gson gson = new Gson();
+
+                        // TODO: Use this data to implement a League Adapter for the Bet Activity
                         Leagues myLeagues =  gson.fromJson(mJson, Leagues.class);
                         Log.d("HTTP","leagues : "+myLeagues);
                         Log.d("HTTP","Response: " + response.toString());
@@ -70,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
                         Log.e("HTTP","HTTP request fails");
 
                     }
