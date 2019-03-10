@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.League;
 import e.iot.betbuddy.model.Leagues;
 
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     private Leagues myLeagues;
 
     private void retrieveData() {
-
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://www.thesportsdb.com/api/v1/json/1/all_leagues.php";
@@ -126,9 +126,8 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if (menuItem.getItemId() == R.id.feat_item) {
-                            Intent betIntent = new Intent(MainActivity.this, BetActivity.class);
-                            betIntent.putExtra("leagues", myLeagues.getLeagues());
-                            startActivity(betIntent);
+                            DataHolder.getInstance().save("leagues",myLeagues.getLeagues());
+                            startActivity(new Intent(MainActivity.this, BetActivity.class));
                         }
                         return true;
                     }

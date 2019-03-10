@@ -37,7 +37,7 @@ public class GroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
 
-        ListView groupListView =findViewById(R.id.group_ListView);
+        ListView groupListView = findViewById(R.id.group_ListView);
 //        groupListView
         groupListView.setAdapter(groupAdapter);
 
