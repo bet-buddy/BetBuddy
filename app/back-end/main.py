@@ -22,10 +22,12 @@ ref = db.reference('matches')
 
 odds_list = []
 
+'''
+    Function to parse json of match data
+    Returns an array of [team1, team2, [odds]]
+'''
 def parseEvent(json):
     result = []
-    #parsed_json = ast.literal_eval(json)
-    #parsed_json = json.loads(json_file)
     result.append(json["teams"][0])
     result.append(json["teams"][1])
     result.append(json["sites"][BET365]["odds"]["h2h"])
@@ -38,6 +40,7 @@ odds_response = requests.get('https://api.the-odds-api.com/v3/odds', params={
     'mkt': 'h2h' # h2h | spreads | totals
 })
 
+#received json respone from odds-api
 odds_json = json.loads(odds_response.text)
 if not odds_json['success']:
     print(
@@ -45,12 +48,10 @@ if not odds_json['success']:
         odds_json['msg']
     )
 else:
-    #print(odds_json['data'][0])
     print('Remaining requests', odds_response.headers['x-requests-remaining'])
     print('Used requests', odds_response.headers['x-requests-used'])
+    #loop through odds for all matches and parseEvent
     for x in range(0, len(odds_json['data'])):
         odds = odds_json['data'][x]
         odds_list.append(parseEvent(odds_json['data'][x]));
-
-    print(odds_list[2][2][2])
     ref.push(odds_list)

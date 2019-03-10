@@ -1,6 +1,7 @@
 package e.iot.betbuddy.model;
+import java.io.Serializable;
 
-public class League {
+public class League implements Serializable {
 
     private String idLeague;
 
