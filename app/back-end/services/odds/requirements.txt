@@ -1,0 +1,7 @@
+Flask==1.0.2
+requests
+requests-toolbelt
+firebase-admin
+google-api-python-client
+google-cloud-storage
+google-cloud-firestore
