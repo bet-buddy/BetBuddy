@@ -42,7 +42,7 @@ public class MessageActivity extends AppCompatActivity {
         db.collection("groups").document(lightweightGroup.gid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Log.d("FFFFFF","SUCCESSS!!!!!");
+//                        Log.d("FFFFFF","SUCCESSS!!!!!");
                         group = documentSnapshot.toObject(Group.class);
 
                         Log.d("FIREBASE",""+group.messages.get(0));

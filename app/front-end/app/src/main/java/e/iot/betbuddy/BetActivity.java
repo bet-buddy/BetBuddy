@@ -32,6 +32,7 @@ import e.iot.betbuddy.model.User;
 
 public class BetActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    private LeagueAdapter adapter = new LeagueAdapter(this);
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +72,8 @@ public class BetActivity extends AppCompatActivity {
                     }
                 });
 
-        ArrayList<League> leagueList = (ArrayList<League>) getIntent().getSerializableExtra("leagues");
+        ArrayList<League> leagueList = (ArrayList<League>) (DataHolder.getInstance().retrieve("leagues"));
         ListView listView = (ListView) findViewById(R.id.leagues_ListView);
-        LeagueAdapter adapter = new LeagueAdapter(leagueList);
         listView.setAdapter(adapter);
 
     }
