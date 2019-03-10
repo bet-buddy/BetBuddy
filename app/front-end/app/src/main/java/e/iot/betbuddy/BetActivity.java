@@ -20,18 +20,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import e.iot.betbuddy.adapters.GroupAdapter;
+import e.iot.betbuddy.adapters.LeagueAdapter;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.Group;
+import e.iot.betbuddy.model.League;
 import e.iot.betbuddy.model.Message;
 import e.iot.betbuddy.model.User;
 
 public class BetActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
-    
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bet);
@@ -68,6 +70,12 @@ public class BetActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        ArrayList<League> leagueList = (ArrayList<League>) getIntent().getSerializableExtra("leagues");
+        ListView listView = (ListView) findViewById(R.id.leagues_ListView);
+        LeagueAdapter adapter = new LeagueAdapter(leagueList);
+        listView.setAdapter(adapter);
+
     }
 
 

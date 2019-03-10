@@ -47,6 +47,7 @@ import e.iot.betbuddy.model.Leagues;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private Leagues myLeagues;
 
     private void retrieveData() {
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         Gson gson = new Gson();
 
                         // TODO: Use this data to implement a League Adapter for the Bet Activity
-                        Leagues myLeagues =  gson.fromJson(mJson, Leagues.class);
+                        myLeagues =  gson.fromJson(mJson, Leagues.class);
                         Log.d("HTTP","leagues : "+myLeagues);
                         Log.d("HTTP","Response: " + response.toString());
                     }
@@ -125,7 +126,9 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if (menuItem.getItemId() == R.id.feat_item) {
-                            startActivity(new Intent(MainActivity.this, BetActivity.class));
+                            Intent betIntent = new Intent(MainActivity.this, BetActivity.class);
+                            betIntent.putExtra("leagues", myLeagues.getLeagues());
+                            startActivity(betIntent);
                         }
                         return true;
                     }
