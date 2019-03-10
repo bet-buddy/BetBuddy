@@ -43,17 +43,18 @@ import java.util.List;
 
 import e.iot.betbuddy.model.League;
 import e.iot.betbuddy.model.Leagues;
+import e.iot.betbuddy.model.Sports;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private Leagues myLeagues;
+    private Sports sports;
 
     private void retrieveData() {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://www.thesportsdb.com/api/v1/json/1/all_leagues.php";
+        String url = "https://api.the-odds-api.com/v3/sports/?apiKey=b3496429f5a38cffe315865f31719b21";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -65,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
                         Gson gson = new Gson();
 
                         // TODO: Use this data to implement a League Adapter for the Bet Activity
-                        myLeagues =  gson.fromJson(mJson, Leagues.class);
-                        Log.d("HTTP","leagues : "+myLeagues);
+                        sports =  gson.fromJson(mJson, Sports.class);
+                        Log.d("HTTP","leagues : "+sports);
                         Log.d("HTTP","Response: " + response.toString());
                     }
                 }, new Response.ErrorListener() {
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if (menuItem.getItemId() == R.id.feat_item) {
                             Intent betIntent = new Intent(MainActivity.this, BetActivity.class);
-                            betIntent.putExtra("leagues", myLeagues.getLeagues());
+                            betIntent.putExtra("leagues", sports.getData());
                             startActivity(betIntent);
                         }
                         return true;
