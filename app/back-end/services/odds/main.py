@@ -52,11 +52,11 @@ def retrieveGames(sport,region,mkt):
 # Find odds according to params set by client
 def findOdds(data,team1,team2):
 	for game in data:
-			if((team1 in game["teams"]) and (team2 in game["teams"]) ):
-				print(game["teams"])
-				print(game["sites"][0]["odds"]["h2h"])
-				odds = game["sites"][0]["odds"]["h2h"]
-				return odds
+        if((team1 in game["teams"]) and (team2 in game["teams"]) ):
+            print(game["teams"])
+            print(game["sites"][0]["odds"]["h2h"])
+            odds = game["sites"][0]["odds"]["h2h"]
+            return odds
 	return None
 
 # Endpoint :  GET request => every parameter is in the URL
@@ -86,12 +86,11 @@ def bets():
 	Make a one-on-one bet
 	Updates the users database entry with an array of bet data
 '''
-def makeBet(user1, user2, team1, team2) {
+def makeBet(user1, user2, team1, team2):
 	user1_data = [user2, team1, team2]
 	user2_data = [user1, team1, team2]
 	db.collection('users').document(user1).update({"currentBets" :arr1})
 	db.collection('users').document(user2).update({"currentBets" : arr2})
-}
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
