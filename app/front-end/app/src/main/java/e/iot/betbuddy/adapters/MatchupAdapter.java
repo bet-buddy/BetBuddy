@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import e.iot.betbuddy.model.Site;
 import e.iot.betbuddy.model.Bet;
-import e.iot.betbuddy.model.Odds;
+import e.iot.betbuddy.model.*;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,8 @@ public class MatchupAdapter extends BaseAdapter {
         super();
 
         this.context = context;
-        Sport sport = (Sport) (DataHolder.getInstance().retrieve("sport"));
+        Bets betData = (Bets) (DataHolder.getInstance().retrieve("bets"));
+        bets = betData.getData();
     }
 
     @Override

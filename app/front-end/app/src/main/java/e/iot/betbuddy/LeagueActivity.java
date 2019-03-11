@@ -10,15 +10,29 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +45,52 @@ import e.iot.betbuddy.adapters.MatchupAdapter;
 public class LeagueActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private MatchupAdapter adapter = new MatchupAdapter(this);
+    private Bets bets;
+
+    private void retrieveData() {
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://api.the-odds-api.com/v3/odds?sport=soccer_epl&region=uk&mkt=h2h&apiKey=b3496429f5a38cffe315865f31719b21";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JsonParser parser = new JsonParser();
+                        JsonElement mJson = parser.parse(response.toString());
+                        JsonObject jObject = mJson.getAsJsonObject();
+                        Gson gson = new Gson();
+                        JsonArray dataArr = jObject.getAsJsonArray("data");
+
+                        // TODO: Use this data to implement a League Adapter for the Bet Activity
+                        bets =  gson.fromJson(dataArr, Bets.class);
+                        Log.d("HTTP","bets : "+ bets);
+                        Log.d("HTTP","Response: " + response.toString());
+                        DataHolder.getInstance().save("bets", bets);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("HTTP","HTTP request fails");
+
+                    }
+                });
+
+// Access the RequestQueue through your singleton class.
+        queue.add(jsonObjectRequest);
+    }
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bet);
 
+        retrieveData();
 
+        MatchupAdapter adapter = new MatchupAdapter(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -71,15 +123,18 @@ public class LeagueActivity extends AppCompatActivity {
                     }
                 });
 
-        final ArrayList<Bet> betList = (ArrayList<Bet>) (DataHolder.getInstance().retrieve("bets"));
+        //final ArrayList<Bet> betList = (ArrayList<Bet>) (DataHolder.getInstance().retrieve("bets"));
         ListView listView = findViewById(R.id.leagues_ListView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                //Bet bet = betList.get(position);
+                //DataHolder.getInstance().save("bet", bet);
+                ArrayList<Bet> betList = bets.getData();
                 Bet bet = betList.get(position);
-                DataHolder.getInstance().save("bet", bet);
+                DataHolder.getInstance().save("bet",bet);
                 startActivity(new Intent(LeagueActivity.this, BetSubmitActivity.class));
             }
         });
