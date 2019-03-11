@@ -47,7 +47,7 @@ public class LeagueAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         Sport leaguePos = leagues.getData().get(position);
-        return Long.parseLong(leaguePos.getKey());
+        return (long) position;
     }
 
     @Override

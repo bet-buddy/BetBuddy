@@ -27,7 +27,7 @@ public class MatchupAdapter extends BaseAdapter {
         super();
 
         this.context = context;
-        this.bets = (ArrayList<Bet>) (DataHolder.getInstance().retrieve("bets"));
+        Sport sport = (Sport) (DataHolder.getInstance().retrieve("sport"));
     }
 
     @Override
