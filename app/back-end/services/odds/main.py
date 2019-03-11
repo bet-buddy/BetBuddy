@@ -41,7 +41,7 @@ def valid_game(team1,team2,region,sport,mkt):
 	else:
 		return False
 
-# Retrieve games from api according to parameters chosen by client 
+# Retrieve games from api according to parameters chosen by client
 def retrieveGames(sport,region,mkt):
 	params = '&sport='+sport+'&region='+region+'&mkt='+mkt
 	url = API_URL+'?'+'apiKey='+API_KEY+params
@@ -82,6 +82,16 @@ def bets():
 	else:
 		error = 'Invalid game'
 	return error
+'''
+	Make a one-on-one bet
+	Updates the users database entry with an array of bet data
+'''
+def makeBet(user1, user2, team1, team2) {
+	user1_data = [user2, team1, team2]
+	user2_data = [user1, team1, team2]
+	db.collection('users').document(user1).update({"currentBets" :arr1})
+	db.collection('users').document(user2).update({"currentBets" : arr2})
+}
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
