@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Bets {
 
-    private Boolean succes;
+    private Boolean success;
 
-    public Boolean getSucces() {
-        return succes;
+    public Boolean getSuccess() {
+        return success;
     }
 
-    public void setSucces(Boolean succes) {
-        this.succes = succes;
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 
     public ArrayList<Bet> getData() {

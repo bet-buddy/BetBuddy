@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private void retrieveData() {
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
+        final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "https://api.the-odds-api.com/v3/sports/?apiKey=b3496429f5a38cffe315865f31719b21";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("HTTP","leagues : "+sports);
                         Log.d("HTTP","Response: " + response.toString());
                         DataHolder.getInstance().save("sports",sports);
+                        queue.stop();
                     }
                 }, new Response.ErrorListener() {
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
 // Access the RequestQueue through your singleton class.
         queue.add(jsonObjectRequest);
+        DataHolder.getInstance().save("queue",queue);
     }
 
     @Override

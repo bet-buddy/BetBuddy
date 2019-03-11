@@ -64,10 +64,10 @@ public class MatchupAdapter extends BaseAdapter {
         TextView contentTextView = rowMain.findViewById(R.id.matchup_content_TextView);
 
         ArrayList<Site> sites = bets.get(position).getSites();
-        ArrayList<Odds> odds = sites.get(0).getOdds();
-        String oddsText = (String) teams.get(0) + ": " + odds.get(0).geth2h().get(0) + ", "
-                + teams.get(1) + ": " + odds.get(0).geth2h().get(1) + ", " + "Draw: "
-                + odds.get(0).geth2h().get(2);
+        Odds odds = sites.get(0).getOdds();
+        String oddsText = (String) teams.get(0) + ": " + odds.geth2h().get(0) + ", "
+                + teams.get(1) + ": " + odds.geth2h()+ ", " + "Draw: "
+                + odds.geth2h().get(2);
         contentTextView.setText(oddsText);
 
         return rowMain;

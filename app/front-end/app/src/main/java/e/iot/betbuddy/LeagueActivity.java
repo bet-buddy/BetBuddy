@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,13 +47,15 @@ public class LeagueActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private Bets bets;
+    private ListView listView;
+    MatchupAdapter adapter;
 
     private void retrieveData() {
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "https://api.the-odds-api.com/v3/odds?sport=soccer_epl&region=uk&mkt=h2h&apiKey=b3496429f5a38cffe315865f31719b21";
-
+        Log.d("DATA ret","It is retrieving DATA!!!");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -60,15 +63,27 @@ public class LeagueActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         JsonParser parser = new JsonParser();
                         JsonElement mJson = parser.parse(response.toString());
-                        JsonObject jObject = mJson.getAsJsonObject();
                         Gson gson = new Gson();
-                        JsonArray dataArr = jObject.getAsJsonArray("data");
 
                         // TODO: Use this data to implement a League Adapter for the Bet Activity
-                        bets =  gson.fromJson(dataArr, Bets.class);
+                        bets =  gson.fromJson(mJson, Bets.class);
                         Log.d("HTTP","bets : "+ bets);
                         Log.d("HTTP","Response: " + response.toString());
                         DataHolder.getInstance().save("bets", bets);
+                         adapter = new MatchupAdapter(LeagueActivity.this);
+                        listView.setAdapter(adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                retrieveData();
+                                //Bet bet = betList.get(position);
+                                //DataHolder.getInstance().save("bet", bet);
+                                ArrayList<Bet> betList = bets.getData();
+                                Bet bet = betList.get(position);
+                                DataHolder.getInstance().save("bet",bet);
+                                startActivity(new Intent(LeagueActivity.this, BetSubmitActivity.class));
+                            }
+                        });
                     }
                 }, new Response.ErrorListener() {
 
@@ -81,16 +96,27 @@ public class LeagueActivity extends AppCompatActivity {
 
 // Access the RequestQueue through your singleton class.
         queue.add(jsonObjectRequest);
+
+//        queue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+//            @Override
+//            public void onRequestFinished(Request<Object> request) {
+//                Log.d("HTTP","bets req finished");
+//                try {
+//                    Log.d("HTTP","request = "+request.getBody().toString());
+//                } catch (AuthFailureError authFailureError) {
+//                    authFailureError.printStackTrace();
+//                }
+//            }
+//        });
     }
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bet);
-
+         listView = findViewById(R.id.leagues_ListView);
         retrieveData();
 
-        MatchupAdapter adapter = new MatchupAdapter(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -124,20 +150,7 @@ public class LeagueActivity extends AppCompatActivity {
                 });
 
         //final ArrayList<Bet> betList = (ArrayList<Bet>) (DataHolder.getInstance().retrieve("bets"));
-        ListView listView = findViewById(R.id.leagues_ListView);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //Bet bet = betList.get(position);
-                //DataHolder.getInstance().save("bet", bet);
-                ArrayList<Bet> betList = bets.getData();
-                Bet bet = betList.get(position);
-                DataHolder.getInstance().save("bet",bet);
-                startActivity(new Intent(LeagueActivity.this, BetSubmitActivity.class));
-            }
-        });
     }
 
 

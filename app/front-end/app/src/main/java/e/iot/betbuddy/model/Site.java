@@ -7,7 +7,7 @@ public class Site {
     private String site_key;
     private String site_nice;
     private long last_update;
-    private ArrayList<Odds> odds;
+    private Odds odds;
 
     public String getSite_key() {
         return site_key;
@@ -29,11 +29,11 @@ public class Site {
         return last_update;
     }
 
-    public ArrayList<Odds> getOdds() {
+    public Odds getOdds() {
         return odds;
     }
 
-    public void setOdds(ArrayList<Odds> odds) {
+    public void setOdds(Odds odds) {
         this.odds = odds;
     }
 
