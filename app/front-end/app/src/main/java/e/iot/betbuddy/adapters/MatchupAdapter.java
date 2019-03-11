@@ -66,7 +66,7 @@ public class MatchupAdapter extends BaseAdapter {
         ArrayList<Site> sites = bets.get(position).getSites();
         Odds odds = sites.get(0).getOdds();
         String oddsText = (String) teams.get(0) + ": " + odds.geth2h().get(0) + ", "
-                + teams.get(1) + ": " + odds.geth2h()+ ", " + "Draw: "
+                + teams.get(1) + ": " + odds.geth2h().get(1)+ ", " + "Draw: "
                 + odds.geth2h().get(2);
         contentTextView.setText(oddsText);
 
