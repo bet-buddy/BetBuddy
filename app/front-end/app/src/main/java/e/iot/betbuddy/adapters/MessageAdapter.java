@@ -44,7 +44,7 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(group.messages.get(position).mid);
+        return (long) position;
     }
 
     @Override
