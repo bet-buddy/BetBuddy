@@ -25,36 +25,19 @@ import java.util.List;
 
 import e.iot.betbuddy.adapters.LeagueAdapter;
 import e.iot.betbuddy.data.DataHolder;
-import e.iot.betbuddy.model.Group;
-import e.iot.betbuddy.model.League;
-import e.iot.betbuddy.model.Message;
-import e.iot.betbuddy.model.User;
-import e.iot.betbuddy.model.Sport;
-import e.iot.betbuddy.model.Sports;
+import e.iot.betbuddy.model.*;
+import e.iot.betbuddy.adapters.MatchupAdapter;
 
-public class BetActivity extends AppCompatActivity {
+public class LeagueActivity extends AppCompatActivity {
+
     private DrawerLayout drawerLayout;
-    private LeagueAdapter adapter = new LeagueAdapter(this);
+    private MatchupAdapter adapter = new MatchupAdapter(this);
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bet);
 
-
-
-        //final ArrayList<Sport> leagueList = (ArrayList<Sport>) (DataHolder.getInstance().retrieve("leagues"));
-        ListView listView = (ListView) findViewById(R.id.leagues_ListView);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<Sport> leagueList = (ArrayList<Sport>) (DataHolder.getInstance().retrieve("leagues"));
-                Sport sport = leagueList.get(position);
-                DataHolder.getInstance().save("sport", sport);
-                startActivity(new Intent(BetActivity.this, LeagueActivity.class));
-            }
-        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,7 +48,7 @@ public class BetActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.league_nav_view);
+        NavigationView navigationView = findViewById(R.id.one_league_nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -82,12 +65,24 @@ public class BetActivity extends AppCompatActivity {
                             signOut();
                         }
                         if(menuItem.getItemId() == R.id.chat_item) {
-                            startActivity(new Intent(BetActivity.this, GroupActivity.class));
+                            startActivity(new Intent(LeagueActivity.this, GroupActivity.class));
                         }
                         return true;
                     }
                 });
 
+        final ArrayList<Bet> betList = (ArrayList<Bet>) (DataHolder.getInstance().retrieve("bets"));
+        ListView listView = (ListView) findViewById(R.id.one_league_ListView);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bet bet = betList.get(position);
+                DataHolder.getInstance().save("bet", bet);
+                startActivity(new Intent(LeagueActivity.this, SubmitBetActivity.class));
+            }
+        });
     }
 
 
@@ -105,7 +100,7 @@ public class BetActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Intent intent;
-                intent = new Intent(BetActivity.this,LoginActivity.class);
+                intent = new Intent(LeagueActivity.this,LoginActivity.class);
                 startActivity(intent);
             }
         });

@@ -128,9 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if (menuItem.getItemId() == R.id.feat_item) {
-                            Intent betIntent = new Intent(MainActivity.this, BetActivity.class);
-                            betIntent.putExtra("leagues", sports.getData());
-                            startActivity(betIntent);
+                            startActivity(new Intent(MainActivity.this, BetActivity.class));
                         }
                         return true;
                     }

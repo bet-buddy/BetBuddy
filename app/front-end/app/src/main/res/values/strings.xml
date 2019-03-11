@@ -120,4 +120,6 @@
     <string name="title_activity_message">MessageActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_bet">Bet Activity</string>
+    <string name="title_activity_league">LeagueActivity</string>
+    <string name="title_activity_bet_submit">BetSubmitActivity</string>
 </resources>

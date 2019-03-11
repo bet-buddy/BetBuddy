@@ -14,7 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WritingActivity"></activity>
+        <activity
+            android:name=".BetSubmitActivity"
+            android:label="@string/title_activity_bet_submit"></activity>
+        <activity
+            android:name=".LeagueActivity"
+            android:label="@string/title_activity_league" />
+        <activity android:name=".WritingActivity" />
         <activity
             android:name=".BetActivity"
             android:label="@string/title_activity_bet" />
