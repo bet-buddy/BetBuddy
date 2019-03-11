@@ -80,7 +80,7 @@ public class LeagueActivity extends AppCompatActivity {
 
                 Bet bet = betList.get(position);
                 DataHolder.getInstance().save("bet", bet);
-                startActivity(new Intent(LeagueActivity.this, SubmitBetActivity.class));
+                startActivity(new Intent(LeagueActivity.this, BetSubmitActivity.class));
             }
         });
     }

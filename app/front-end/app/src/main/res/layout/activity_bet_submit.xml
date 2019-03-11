@@ -20,12 +20,14 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:titleTextColor="@color/colorWhite"/>
+                app:titleTextColor="@color/colorWhite" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/send_button"
@@ -44,27 +46,37 @@
                 android:id="@+id/radioTeam"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:layout_editor_absoluteX="100dp"
-                tools:layout_editor_absoluteY="138dp">
-
-                <RadioButton
-                    android:id="@+id/radioAway"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="80dp"
-                    android:text="Away Team" />
+                android:layout_marginStart="118dp"
+                android:layout_marginLeft="118dp"
+                android:layout_marginTop="88dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/oddsText">
 
                 <RadioButton
                     android:id="@+id/radioHome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_toLeftOf="@+id/radioAway"
                     android:checked="true"
                     android:text="Home Team" />
 
+                <RadioButton
+                    android:id="@+id/radioAway"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Away Team" />
+
             </RadioGroup>
+
+            <TextView
+                android:id="@+id/oddsText"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginTop="22dp"
+                android:text="Home: 1.5 Away: 3.0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         </android.support.constraint.ConstraintLayout>
 
