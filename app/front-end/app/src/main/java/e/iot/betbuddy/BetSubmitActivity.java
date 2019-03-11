@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,7 +72,49 @@ public class BetSubmitActivity extends AppCompatActivity {
                     }
                 });
 
-        final ArrayList<Bet> betList = (ArrayList<Bet>) (DataHolder.getInstance().retrieve("bets"));
+        final Bet bet = (Bet) (DataHolder.getInstance().retrieve("bet"));
+        ArrayList<String> teams = bet.getTeams();
+        ArrayList<Site> sites = bet.getSites();
+        ArrayList<Odds> odds = sites.get(0).getOdds();
+        String oddsText = (String) teams.get(0) + ": " + odds.get(0).geth2h().get(0) + ", "
+                + teams.get(1) + ": " + odds.get(0).geth2h().get(1) + ", " + "Draw: "
+                + odds.get(0).geth2h().get(2);
+        TextView oddsDisplay = (TextView)findViewById(R.id.oddsText);
+        oddsDisplay.setText(oddsText);
+
+        RadioButton homeButton = (RadioButton)findViewById(R.id.radioHome);
+        RadioButton awayButton = (RadioButton)findViewById(R.id.radioAway);
+        homeButton.setText(teams.get(0));
+        awayButton.setText(teams.get(1));
+
+    }
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void signOut() {
+        AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Intent intent;
+                intent = new Intent(BetSubmitActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void submit(View view) {
+        Intent intent = new Intent(this, LeagueActivity.class);
+        startActivity(intent);
     }
 
 }
