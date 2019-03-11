@@ -49,7 +49,7 @@ public class BetActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<Sport> leagueList = (ArrayList<Sport>) (DataHolder.getInstance().retrieve("leagues"));
+                ArrayList<Sport> leagueList = (ArrayList<Sport>) (DataHolder.getInstance().retrieve("sports"));
                 Sport sport = leagueList.get(position);
                 DataHolder.getInstance().save("sport", sport);
                 startActivity(new Intent(BetActivity.this, LeagueActivity.class));

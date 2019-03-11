@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         sports =  gson.fromJson(mJson, Sports.class);
                         Log.d("HTTP","leagues : "+sports);
                         Log.d("HTTP","Response: " + response.toString());
+                        DataHolder.getInstance().save("sports",sports);
                     }
                 }, new Response.ErrorListener() {
 

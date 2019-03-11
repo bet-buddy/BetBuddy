@@ -48,7 +48,7 @@ public class LeagueActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.one_league_nav_view);
+        NavigationView navigationView = findViewById(R.id.league_nav_view );
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -72,7 +72,7 @@ public class LeagueActivity extends AppCompatActivity {
                 });
 
         final ArrayList<Bet> betList = (ArrayList<Bet>) (DataHolder.getInstance().retrieve("bets"));
-        ListView listView = (ListView) findViewById(R.id.one_league_ListView);
+        ListView listView = findViewById(R.id.leagues_ListView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

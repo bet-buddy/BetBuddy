@@ -3,6 +3,7 @@ package e.iot.betbuddy.adapters;
 import e.iot.betbuddy.R;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.Sport;
+import e.iot.betbuddy.model.Sports;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,29 +24,29 @@ import java.util.ArrayList;
 
 public class LeagueAdapter extends BaseAdapter {
 
-    private ArrayList<Sport> leagues;
+    private Sports leagues;
     private Context context;
 
     public LeagueAdapter(Context context) {
         super();
 
         this.context = context;
-        this.leagues = (ArrayList<Sport>) (DataHolder.getInstance().retrieve("leagues"));
+        this.leagues = (Sports) DataHolder.getInstance().retrieve("sports");
     }
 
     @Override
     public int getCount() {
-        return leagues.size();
+        return leagues.getData().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return leagues.get(position);
+        return leagues.getData().get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        Sport leaguePos = leagues.get(position);
+        Sport leaguePos = leagues.getData().get(position);
         return Long.parseLong(leaguePos.getKey());
     }
 
@@ -58,11 +59,11 @@ public class LeagueAdapter extends BaseAdapter {
 
         TextView groupNameTextView = rowMain.findViewById(R.id.leaguename_textview);
 
-        groupNameTextView.setText(leagues.get(position).getDetails());
+        groupNameTextView.setText(leagues.getData().get(position).getDetails());
 
         TextView contentTextView = rowMain.findViewById(R.id.league_content_TextView);
 
-        contentTextView.setText(leagues.get(position).getGroup());
+        contentTextView.setText(leagues.getData().get(position).getGroup());
 
         return rowMain;
     }
