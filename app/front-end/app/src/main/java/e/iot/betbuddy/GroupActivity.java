@@ -26,9 +26,10 @@ import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.Group;
 import e.iot.betbuddy.model.Message;
 import e.iot.betbuddy.model.User;
+import e.iot.betbuddy.services.UserService;
 
 public class GroupActivity extends AppCompatActivity {
-    private GroupAdapter groupAdapter = new GroupAdapter(this);
+    private GroupAdapter groupAdapter;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -36,8 +37,9 @@ public class GroupActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
-
+        UserService.getInstance().retrieveUser();
         ListView groupListView = findViewById(R.id.group_ListView);
+        groupAdapter  = new GroupAdapter(this);
 //        groupListView
         groupListView.setAdapter(groupAdapter);
 

@@ -27,9 +27,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -39,18 +42,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.League;
 import e.iot.betbuddy.model.Leagues;
 import e.iot.betbuddy.model.Sports;
+import e.iot.betbuddy.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private Sports sports;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    private FirebaseAuth mAuth;
+
+    private TextView mStatusView;
+    private TextView mDetailView;
     private void retrieveData() {
 
         // Instantiate the RequestQueue.
@@ -86,13 +97,42 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
         DataHolder.getInstance().save("queue",queue);
     }
+    private void checkForUserInDb() {
+        mAuth = FirebaseAuth.getInstance();
+        final String UID = mAuth.getCurrentUser().getUid();
+        if(UID == null) {
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        }
+        final String name = mAuth.getCurrentUser().getDisplayName();
+        db.collection("users").document(UID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
+                        User user = documentSnapshot.toObject(User.class);
+
+                        if(user!=null) {
+                            DataHolder.getInstance().save("user",user);
+                            Log.d("FIREBASE","already existing doc : "+user.toString());
+                        }
+                        else{
+                            Map<Object,Object> newUser = new HashMap<>();
+                            newUser.put("uid",UID);
+                            newUser.put("name",name);
+                            db.collection("users").document(UID).set(newUser);
+                            DataHolder.getInstance().save("user",newUser);
+                        }
+
+                    }})
+
+        ;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.checkForUserInDb();
         retrieveData();
 
 

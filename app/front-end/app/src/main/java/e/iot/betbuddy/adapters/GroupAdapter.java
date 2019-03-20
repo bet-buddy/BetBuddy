@@ -19,10 +19,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import e.iot.betbuddy.GroupActivity;
 import e.iot.betbuddy.R;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.Group;
 import e.iot.betbuddy.model.User;
+import e.iot.betbuddy.services.UserService;
 
 public class GroupAdapter extends BaseAdapter {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -44,6 +46,15 @@ public class GroupAdapter extends BaseAdapter {
         if(user!=null && user.getGroupList()!= null) {
             Log.d("FIREBASE",""+user);
             this.groups = user.getGroupList();
+        } else
+        {
+            if(user==null)       {
+                Log.e("USER","No user in memory");
+                UserService.getInstance().retrieveUser();
+                ((GroupActivity)context).recreate();
+                }
+            else Log.e("GROUPLST","No group");
+
         }
     }
 

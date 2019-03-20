@@ -81,10 +81,20 @@ public class BetSubmitActivity extends AppCompatActivity {
         final Bet bet = (Bet) (DataHolder.getInstance().retrieve("bet"));
         ArrayList<String> teams = bet.getTeams();
         ArrayList<Site> sites = bet.getSites();
+
         Odds odds = sites.get(0).getOdds();
-        String oddsText = (String) teams.get(0) + ": " + odds.geth2h().get(0) + ", "
-                + teams.get(1) + ": " + odds.geth2h().get(1) + ", " + "Draw: "
-                + odds.geth2h().get(2);
+        String oddsText;
+        if(odds.geth2h().size()<3) {
+            oddsText = (String) teams.get(0) + ": " + odds.geth2h().get(0) + ", "
+                    + teams.get(1) + ": " + odds.geth2h().get(1);
+            TextView oddsDisplay = (TextView)findViewById(R.id.oddsText);
+        }
+        else {
+            oddsText = (String) teams.get(0) + ": " + odds.geth2h().get(0) + ", "
+                    + teams.get(1) + ": " + odds.geth2h().get(1) + ", " + "Draw: "
+                    + odds.geth2h().get(2);
+        }
+
         TextView oddsDisplay = (TextView)findViewById(R.id.oddsText);
         oddsDisplay.setText(oddsText);
 
