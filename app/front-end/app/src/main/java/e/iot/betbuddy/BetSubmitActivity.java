@@ -33,13 +33,19 @@ import e.iot.betbuddy.adapters.MatchupAdapter;
 public class BetSubmitActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private Bet bet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bet_submit);
 
+        bet = (Bet)DataHolder.getInstance().retrieve("bet");
 
+        TextView oddText = findViewById(R.id.oddsText);
+        float awayOdd = bet.getSites().get(0).getOdds().geth2h().get(1);
+        float homeOdd = bet.getSites().get(0).getOdds().geth2h().get(0);
+        oddText.setText("Home: "+homeOdd+" Away: "+awayOdd);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -49,7 +55,7 @@ public class BetSubmitActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.one_league_nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override

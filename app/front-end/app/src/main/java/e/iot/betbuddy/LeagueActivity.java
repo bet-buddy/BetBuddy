@@ -50,12 +50,22 @@ public class LeagueActivity extends AppCompatActivity {
     private ListView listView;
     MatchupAdapter adapter;
 
+    private Sport sport;
     private void retrieveData() {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://api.the-odds-api.com/v3/odds?sport=soccer_epl&region=uk&mkt=h2h&apiKey=b3496429f5a38cffe315865f31719b21";
+
+
+        String url = "https://api.the-odds-api.com/v3/odds?";
+        String options = "&region=uk&mkt=h2h&apiKey=b3496429f5a38cffe315865f31719b21";
+
+        String key = sport.getKey();
+        key = "sport="+key;
+        url+=key+options;
+
         Log.d("DATA ret","It is retrieving DATA!!!");
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -73,17 +83,26 @@ public class LeagueActivity extends AppCompatActivity {
                          adapter = new MatchupAdapter(LeagueActivity.this);
                         listView.setAdapter(adapter);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                retrieveData();
-                                //Bet bet = betList.get(position);
-                                //DataHolder.getInstance().save("bet", bet);
-                                ArrayList<Bet> betList = bets.getData();
-                                Bet bet = betList.get(position);
-                                DataHolder.getInstance().save("bet",bet);
+                                DataHolder.getInstance().save("bet",bets.getData().get(position));
                                 startActivity(new Intent(LeagueActivity.this, BetSubmitActivity.class));
                             }
                         });
+//                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                                retrieveData();
+//                                //Bet bet = betList.get(position);
+//                                //DataHolder.getInstance().save("bet", bet);
+//                                ArrayList<Bet> betList = bets.getData();
+//                                Bet bet = betList.get(position);
+//                                DataHolder.getInstance().save("bet",bet);
+//                                startActivity(new Intent(LeagueActivity.this, BetSubmitActivity.class));
+//                            }
+//                        });
                     }
                 }, new Response.ErrorListener() {
 
@@ -115,7 +134,11 @@ public class LeagueActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bet);
          listView = findViewById(R.id.leagues_ListView);
+         sport = (Sport)DataHolder.getInstance().retrieve("sport");
         retrieveData();
+
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -173,5 +196,6 @@ public class LeagueActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

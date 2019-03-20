@@ -52,6 +52,7 @@ public class BetActivity extends AppCompatActivity {
                 Sports leagueList = (Sports) (DataHolder.getInstance().retrieve("sports"));
                 Sport sport = leagueList.getData().get(position);
                 DataHolder.getInstance().save("sport", sport);
+
                 startActivity(new Intent(BetActivity.this, LeagueActivity.class));
             }
         });
