@@ -122,4 +122,6 @@
     <string name="title_activity_bet">Bet Activity</string>
     <string name="title_activity_league">LeagueActivity</string>
     <string name="title_activity_bet_submit">BetSubmitActivity</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 </resources>

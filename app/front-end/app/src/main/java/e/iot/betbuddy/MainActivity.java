@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -52,7 +53,7 @@ import e.iot.betbuddy.model.Leagues;
 import e.iot.betbuddy.model.Sports;
 import e.iot.betbuddy.model.User;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawerLayout;
     private Sports sports;
@@ -132,50 +133,55 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         this.checkForUserInDb();
         retrieveData();
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-
-
-
-
-        setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        drawerLayout.closeDrawers();
+        navigationView.setNavigationItemSelectedListener(this);
 
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
-                        if (menuItem.getItemId() == R.id.exit) {
-                            signOut();
-                        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new MainFragment()).commit();
+    }
 
-                        if (menuItem.getItemId() == R.id.chat_item) {
-                            startActivity(new Intent(MainActivity.this, GroupActivity.class));
-                        }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.chat_item:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new GroupFragment()).commit();
+                //startActivity(new Intent(MainActivity.this, GroupActivity.class));
+                break;
+            case R.id.feat_item:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new BetFragment()).commit();
+                //startActivity(new Intent(MainActivity.this, BetActivity.class));
+                break;
+            case R.id.exit:
+                signOut();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
-                        if (menuItem.getItemId() == R.id.feat_item) {
-                            startActivity(new Intent(MainActivity.this, BetActivity.class));
-                        }
-                        return true;
-                    }
-                });
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -198,5 +204,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }
