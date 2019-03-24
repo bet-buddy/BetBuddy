@@ -1,5 +1,8 @@
 package e.iot.betbuddy.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Notification {
     private String receiver = "";
     private String receiverid = "";
@@ -45,15 +48,44 @@ public class Notification {
         this.type = type;
     }
 
-    public Bet getBet() {
-        return bet;
+
+    private String home_team ="";
+
+    public String getHome_team() {
+        return home_team;
     }
 
-    public void setBet(Bet bet) {
-        this.bet = bet;
+    public void setHome_team(String home_team) {
+        this.home_team = home_team;
     }
 
-    private Bet bet;
+    public String getAway_team() {
+        return away_team;
+    }
+
+    public void setAway_team(String away_team) {
+        this.away_team = away_team;
+    }
+
+    public List<Float> getOdds() {
+        return odds;
+    }
+
+    public void setOdds(List<Float> odds) {
+        this.odds = odds;
+    }
+
+    public int getSenderPoints() {
+        return senderPoints;
+    }
+
+    public void setSenderPoints(int senderPoints) {
+        this.senderPoints = senderPoints;
+    }
+
+    private String away_team = "";
+    private List<Float> odds = new ArrayList<>();
+    private int senderPoints = 0;
     private String senderid = "";
     private String type = "";
     public Notification() {}

@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +40,16 @@ import e.iot.betbuddy.adapters.MatchupAdapter;
 import e.iot.betbuddy.services.UserService;
 
 public class BetSubmitActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+
     private DrawerLayout drawerLayout;
     private Sports sports;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String receiverName = "Paul Estano";
+    private String receiverName;
     private Bet bet;
-
+    private Odds odds;
+    private ArrayList<String> teams;
+    ArrayList<Site> sites;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,10 +94,10 @@ public class BetSubmitActivity extends AppCompatActivity {
                 });
 
         final Bet bet = (Bet) (DataHolder.getInstance().retrieve("bet"));
-        ArrayList<String> teams = bet.getTeams();
-        ArrayList<Site> sites = bet.getSites();
+        teams = bet.getTeams();
+        sites = bet.getSites();
 
-        Odds odds = sites.get(0).getOdds();
+        odds = sites.get(0).getOdds();
         String oddsText;
         if(odds.geth2h().size()<3) {
             oddsText = (String) teams.get(0) + ": " + odds.geth2h().get(0) + ", "
@@ -137,19 +144,35 @@ public class BetSubmitActivity extends AppCompatActivity {
     }
 
     public void submit(View view) {
-
+        UserService.getInstance().retrieveUser();
         User user = (User) DataHolder.getInstance().retrieve("user");
-        if(user==null){
-            startActivity(new Intent(BetSubmitActivity.this,LoginActivity.class));
+        Log.d("USER BET SUB",""+user);
+        if(user == null){
+            startActivity(new Intent(this,LoginActivity.class));
+            Log.e("USER NAME ERR","");
         }
         EditText opponentText = findViewById(R.id.opponentText);
         receiverName = opponentText.getText().toString();
+        mAuth = FirebaseAuth.getInstance();
 
         if(!(receiverName.isEmpty())) {
             final Notification notification = new Notification();
-            notification.setSender(user.getName());
-            notification.setSenderid(user.getUid());
+            notification.setSender(mAuth.getCurrentUser().getDisplayName());
+            notification.setSenderid(mAuth.getUid());
+            notification.setAway_team(teams.get(1));
+            notification.setHome_team(teams.get(0));
+            List<Float> listOdds = new ArrayList<Float>();
+            if(odds.geth2h().size()>2) {
+                listOdds.add(odds.geth2h().get(0));
+                listOdds.add(odds.geth2h().get(2));
 
+            }else {
+
+                listOdds.add(odds.geth2h().get(0));
+                listOdds.add(odds.geth2h().get(1));
+
+            }
+            notification.setOdds(listOdds);
             notification.setReceiver(receiverName);
             db.collection("users").whereEqualTo("name",receiverName).get().addOnSuccessListener(
                     new OnSuccessListener<QuerySnapshot>() {
@@ -164,7 +187,12 @@ public class BetSubmitActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }
-            );
+            ).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Opponent not found","can't find "+receiverName+" in firestore db");
+                }
+            });
         }
 
 

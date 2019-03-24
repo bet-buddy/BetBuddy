@@ -51,6 +51,7 @@ import e.iot.betbuddy.model.League;
 import e.iot.betbuddy.model.Leagues;
 import e.iot.betbuddy.model.Sports;
 import e.iot.betbuddy.model.User;
+import e.iot.betbuddy.services.UserService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private FirebaseAuth mAuth;
-
+    private User user;
     private TextView mStatusView;
     private TextView mDetailView;
     private void retrieveData() {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                        User user = documentSnapshot.toObject(User.class);
+                        user = documentSnapshot.toObject(User.class);
 
                         if(user!=null) {
                             DataHolder.getInstance().save("user",user);
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.checkForUserInDb();
+        UserService.getInstance().retrieveUser();
         retrieveData();
 
 
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if (menuItem.getItemId() == R.id.chat_item) {
+
                             startActivity(new Intent(MainActivity.this, GroupActivity.class));
                         }
 

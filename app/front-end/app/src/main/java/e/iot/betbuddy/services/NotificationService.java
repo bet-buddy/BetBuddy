@@ -28,12 +28,13 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+//        Log.d("data message test", remoteMessage.getData().get("test"));
+        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),remoteMessage.getData());
         //Log.d(TAG, remoteMessage.getNotification().getTitle() );
         //showNotification(remoteMessage.getData());
     }
 
-    private void showNotification(String title, String body) {
+    private void showNotification(String title, String body,Map<String,String> data) {
 
         Log.d(TAG,"notif received");
 
@@ -61,7 +62,19 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setContentInfo("Notification");
+        // Create an Intent for the activity you want to start
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        resultIntent.putExtra("home_team",data.get("home_team"));
+// Create the TaskStackBuilder and add the intent, which inflates the back stack
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+// Get the PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.setContentIntent(resultPendingIntent);
         notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
+
     }
 
 
