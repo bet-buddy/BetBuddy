@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://api.the-odds-api.com/v3/sports/?apiKey=b3496429f5a38cffe315865f31719b21";
+        String url = "https://api.the-odds-api.com/v3/sports/?apiKey=a59ac2c7edc94c6c8ffd8814724e0658";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

@@ -19,8 +19,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +33,13 @@ import e.iot.betbuddy.adapters.LeagueAdapter;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.*;
 import e.iot.betbuddy.adapters.MatchupAdapter;
+import e.iot.betbuddy.services.UserService;
 
 public class BetSubmitActivity extends AppCompatActivity {
-
     private DrawerLayout drawerLayout;
+    private Sports sports;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String receiverName = "Paul Estano";
     private Bet bet;
 
     @Override
@@ -129,8 +136,33 @@ public class BetSubmitActivity extends AppCompatActivity {
     }
 
     public void submit(View view) {
-        Intent intent = new Intent(this, LeagueActivity.class);
-        startActivity(intent);
+
+        User user = (User) DataHolder.getInstance().retrieve("user");
+        if(user==null){
+            startActivity(new Intent(BetSubmitActivity.this,LoginActivity.class));
+        }
+
+
+        final Notification notification = new Notification();
+        notification.setSender(user.getName());
+        notification.setSenderid(user.getUid());
+
+        notification.setReceiver(receiverName);
+        db.collection("users").whereEqualTo("name",receiverName).get().addOnSuccessListener(
+                new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        DocumentSnapshot d = queryDocumentSnapshots.getDocuments().get(0);
+                        User receiver = d.toObject(User.class);
+                        assert receiver != null;
+                        notification.setReceiverid(receiver.getToken());
+                        db.collection("Notifications").add(notification);
+                        Intent intent = new Intent(BetSubmitActivity.this, LeagueActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
     }
 
 }
