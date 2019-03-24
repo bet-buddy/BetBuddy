@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Log.d("HTTP","leagues : "+sports);
                         Log.d("HTTP","Response: " + response.toString());
                         DataHolder.getInstance().save("sports",sports);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new BetFragment()).commit();
                         queue.stop();
                     }
                 }, new Response.ErrorListener() {
@@ -164,8 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //startActivity(new Intent(MainActivity.this, GroupActivity.class));
                 break;
             case R.id.feat_item:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new BetFragment()).commit();
+                retrieveData();
                 //startActivity(new Intent(MainActivity.this, BetActivity.class));
                 break;
             case R.id.exit:
