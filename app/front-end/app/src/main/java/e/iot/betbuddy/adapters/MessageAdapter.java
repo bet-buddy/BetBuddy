@@ -14,9 +14,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import e.iot.betbuddy.R;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.Group;
+import e.iot.betbuddy.model.Message;
 
 public class MessageAdapter extends BaseAdapter {
     Group lightweightGroup;
@@ -27,6 +32,18 @@ public class MessageAdapter extends BaseAdapter {
 //        super();
         this.context = context;
         this.group = lightweightGroup;
+        ArrayList<Message> newMessages = new ArrayList<>();
+        Log.d("GROUP",""+group);
+        if(group==null) {
+            group = new Group();
+        }
+        if(group.messages==null) {
+            group.messages = new ArrayList<>();
+        }
+        for(int i = group.messages.size()-1;i>=0;i--){
+            newMessages.add(group.messages.get(i));
+        }
+        this.group.messages = newMessages;
     }
 
 

@@ -58,7 +58,7 @@ public class LeagueActivity extends AppCompatActivity {
 
 
         String url = "https://api.the-odds-api.com/v3/odds?";
-        String options = "&region=uk&mkt=h2h&apiKey=b3496429f5a38cffe315865f31719b21";
+        String options = "&region=uk&mkt=h2h&apiKey=a59ac2c7edc94c6c8ffd8814724e0658";
 
         String key = sport.getKey();
         key = "sport="+key;

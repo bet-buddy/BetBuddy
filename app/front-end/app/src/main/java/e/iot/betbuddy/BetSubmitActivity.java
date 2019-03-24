@@ -10,18 +10,27 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +38,21 @@ import e.iot.betbuddy.adapters.LeagueAdapter;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.*;
 import e.iot.betbuddy.adapters.MatchupAdapter;
+import e.iot.betbuddy.services.UserService;
 
 public class BetSubmitActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
 
     private DrawerLayout drawerLayout;
+    private Sports sports;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String receiverName;
     private Bet bet;
-
+    private Odds odds;
+    private ArrayList<String> teams;
+    private RadioButton awayButton;
+    private RadioButton homeButton;
+    ArrayList<Site> sites;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +97,10 @@ public class BetSubmitActivity extends AppCompatActivity {
                 });
 
         final Bet bet = (Bet) (DataHolder.getInstance().retrieve("bet"));
-        ArrayList<String> teams = bet.getTeams();
-        ArrayList<Site> sites = bet.getSites();
+        teams = bet.getTeams();
+        sites = bet.getSites();
 
-        Odds odds = sites.get(0).getOdds();
+        odds = sites.get(0).getOdds();
         String oddsText;
         if(odds.geth2h().size()<3) {
             oddsText = (String) teams.get(0) + ": " + odds.geth2h().get(0) + ", "
@@ -98,8 +116,8 @@ public class BetSubmitActivity extends AppCompatActivity {
         TextView oddsDisplay = (TextView)findViewById(R.id.oddsText);
         oddsDisplay.setText(oddsText);
 
-        RadioButton homeButton = (RadioButton)findViewById(R.id.radioHome);
-        RadioButton awayButton = (RadioButton)findViewById(R.id.radioAway);
+        homeButton = (RadioButton)findViewById(R.id.radioHome);
+        awayButton = (RadioButton)findViewById(R.id.radioAway);
         homeButton.setText(teams.get(0));
         awayButton.setText(teams.get(1));
 
@@ -129,8 +147,62 @@ public class BetSubmitActivity extends AppCompatActivity {
     }
 
     public void submit(View view) {
-        Intent intent = new Intent(this, LeagueActivity.class);
-        startActivity(intent);
+        UserService.getInstance().retrieveUser();
+        User user = (User) DataHolder.getInstance().retrieve("user");
+        Log.d("USER BET SUB",""+user);
+        if(user == null){
+            startActivity(new Intent(this,LoginActivity.class));
+            Log.e("USER NAME ERR","");
+        }
+        EditText opponentText = findViewById(R.id.opponentText);
+        receiverName = opponentText.getText().toString();
+        mAuth = FirebaseAuth.getInstance();
+
+        if(!(receiverName.isEmpty())) {
+            RadioGroup groupButton = findViewById(R.id.radioTeam);
+            final Notification notification = new Notification();
+            if(groupButton.getCheckedRadioButtonId() == homeButton.getId()) notification.setSenderbet(homeButton.getText().toString());
+            else notification.setSenderbet(awayButton.getText().toString());
+            notification.setSender(mAuth.getCurrentUser().getDisplayName());
+            notification.setSenderid(mAuth.getUid());
+            notification.setAway_team(teams.get(1));
+            notification.setHome_team(teams.get(0));
+            List<Float> listOdds = new ArrayList<Float>();
+            if(odds.geth2h().size()>2) {
+                listOdds.add(odds.geth2h().get(0));
+                listOdds.add(odds.geth2h().get(2));
+
+            }else {
+
+                listOdds.add(odds.geth2h().get(0));
+                listOdds.add(odds.geth2h().get(1));
+
+            }
+            notification.setOdds(listOdds);
+            notification.setReceiver(receiverName);
+            db.collection("users").whereEqualTo("name",receiverName).get().addOnSuccessListener(
+                    new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            DocumentSnapshot d = queryDocumentSnapshots.getDocuments().get(0);
+                            User receiver = d.toObject(User.class);
+                            assert receiver != null;
+                            notification.setReceiverid(receiver.getToken());
+                            db.collection("Notifications").add(notification);
+                            Intent intent = new Intent(BetSubmitActivity.this, LeagueActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+            ).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Opponent not found","can't find "+receiverName+" in firestore db");
+                }
+            });
+        }
+
+
+
     }
 
 }

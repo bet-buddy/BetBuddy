@@ -52,6 +52,7 @@ import e.iot.betbuddy.model.League;
 import e.iot.betbuddy.model.Leagues;
 import e.iot.betbuddy.model.Sports;
 import e.iot.betbuddy.model.User;
+import e.iot.betbuddy.services.UserService;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -60,14 +61,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private FirebaseAuth mAuth;
-
+    private User user;
     private TextView mStatusView;
     private TextView mDetailView;
     private void retrieveData() {
 
         // Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://api.the-odds-api.com/v3/sports/?apiKey=b3496429f5a38cffe315865f31719b21";
+        String url = "https://api.the-odds-api.com/v3/sports/?apiKey=a59ac2c7edc94c6c8ffd8814724e0658";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                        User user = documentSnapshot.toObject(User.class);
+                        user = documentSnapshot.toObject(User.class);
 
                         if(user!=null) {
                             DataHolder.getInstance().save("user",user);
@@ -133,8 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        this.checkForUserInDb();
+        UserService.getInstance().retrieveUser();
         retrieveData();
 
 
@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -204,4 +205,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
 }

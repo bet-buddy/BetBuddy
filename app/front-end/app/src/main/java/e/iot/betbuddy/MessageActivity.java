@@ -39,13 +39,16 @@ public class MessageActivity extends AppCompatActivity {
 
     private void retrieveGroupFromDb() {
         Log.d("retriving","Retrieving group from firestore");
+        lightweightGroup.gid = lightweightGroup.gid.replace(" ","");
+        Log.d("retrieving",lightweightGroup.gid);
         db.collection("groups").document(lightweightGroup.gid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 //                        Log.d("FFFFFF","SUCCESSS!!!!!");
+                        Log.d("group from firestore",documentSnapshot.toString());
                         group = documentSnapshot.toObject(Group.class);
-
-                        Log.d("FIREBASE",""+group.messages.get(0));
+                        Log.d("group",""+group);
+//                        Log.d("FIREBASE",""+group.messages.get(0));
 
                         messageAdapter  = new MessageAdapter(group,MessageActivity.this);
 

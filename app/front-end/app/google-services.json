@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "695865206815",
+    "firebase_url": "https://bet-buddy-odds.firebaseio.com",
+    "project_id": "bet-buddy-odds",
+    "storage_bucket": "bet-buddy-odds.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695865206815:android:b761c080896ec02b",
+        "android_client_info": {
+          "package_name": "e.iot.betbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695865206815-9uvhcld953g237aueue60mrjob8pusd8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "e.iot.betbuddy",
+            "certificate_hash": "0d2b2540b0ff256ffb34cc3e6d0549020ed8f446"
+          }
+        },
+        {
+          "client_id": "695865206815-3mi3ed9c617g5s452lkb96l3dbr21bvq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCisVWcicTC18ydIBe2cZzKixB4io8jiZY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695865206815-3mi3ed9c617g5s452lkb96l3dbr21bvq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
