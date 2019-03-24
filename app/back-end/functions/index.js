@@ -16,10 +16,12 @@ exports.sendNotification =  functions.firestore.document('Notifications/{Notific
                 body : notif.home_team + ' VS '+notif.away_team
             },
             data : {
+            	sender: notif.sender,
             	away_team : notif.away_team,
             	home_team : notif.home_team,
             	away_team_odd : notif.odds[1].toString(),
-            	home_team_odd : notif.odds[0].toString()
+            	home_team_odd : notif.odds[0].toString(),
+            	senderbet : notif.senderbet
             }
         };
         return admin.messaging().sendToDevice(notif.receiverid,payload)

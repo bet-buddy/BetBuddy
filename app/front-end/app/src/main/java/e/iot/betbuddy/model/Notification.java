@@ -8,6 +8,24 @@ public class Notification {
     private String receiverid = "";
     private String sender = "";
 
+    public String getSenderbet() {
+        return senderbet;
+    }
+
+    public void setSenderbet(String senderbet) {
+        this.senderbet = senderbet;
+    }
+
+    public String getReceiverbet() {
+        return receiverbet;
+    }
+
+    public void setReceiverbet(String receiverbet) {
+        this.receiverbet = receiverbet;
+    }
+
+    private String senderbet = "";
+    private String receiverbet = "";
     public String getReceiver() {
         return receiver;
     }

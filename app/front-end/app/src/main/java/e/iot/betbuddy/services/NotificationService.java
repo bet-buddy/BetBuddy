@@ -69,6 +69,8 @@ public class NotificationService extends FirebaseMessagingService {
         resultIntent.putExtra("away_team_odd",data.get("away_team_odd"));
         resultIntent.putExtra("home_team",data.get("home_team"));
         resultIntent.putExtra("home_team_odd",data.get("home_team_odd"));
+        resultIntent.putExtra("senderbet",data.get("senderbet"));
+        resultIntent.putExtra("sender",data.get("sender"));
 // Create the TaskStackBuilder and add the intent, which inflates the back stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);

@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
@@ -49,6 +50,8 @@ public class BetSubmitActivity extends AppCompatActivity {
     private Bet bet;
     private Odds odds;
     private ArrayList<String> teams;
+    private RadioButton awayButton;
+    private RadioButton homeButton;
     ArrayList<Site> sites;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +116,8 @@ public class BetSubmitActivity extends AppCompatActivity {
         TextView oddsDisplay = (TextView)findViewById(R.id.oddsText);
         oddsDisplay.setText(oddsText);
 
-        RadioButton homeButton = (RadioButton)findViewById(R.id.radioHome);
-        RadioButton awayButton = (RadioButton)findViewById(R.id.radioAway);
+        homeButton = (RadioButton)findViewById(R.id.radioHome);
+        awayButton = (RadioButton)findViewById(R.id.radioAway);
         homeButton.setText(teams.get(0));
         awayButton.setText(teams.get(1));
 
@@ -156,7 +159,10 @@ public class BetSubmitActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         if(!(receiverName.isEmpty())) {
+            RadioGroup groupButton = findViewById(R.id.radioTeam);
             final Notification notification = new Notification();
+            if(groupButton.getCheckedRadioButtonId() == homeButton.getId()) notification.setSenderbet(homeButton.getText().toString());
+            else notification.setSenderbet(awayButton.getText().toString());
             notification.setSender(mAuth.getCurrentUser().getDisplayName());
             notification.setSenderid(mAuth.getUid());
             notification.setAway_team(teams.get(1));
