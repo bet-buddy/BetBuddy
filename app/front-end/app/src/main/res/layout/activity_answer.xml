@@ -58,17 +58,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/game_text_view" />
 
             <RadioGroup
-                android:id="@+id/radioGroup2"
+                android:id="@+id/radioGroupAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/oponentTextView">
+                tools:layout_editor_absoluteX="150dp"
+                tools:layout_editor_absoluteY="195dp">
 
                 <RadioButton
                     android:id="@+id/radioButtonhome"
@@ -87,13 +81,14 @@
             </RadioGroup>
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
+                android:id="@+id/send_bet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
+                android:onClick="submitBet"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:srcCompat="@drawable/ic_send_black_24dp" />
@@ -124,7 +119,7 @@
                 android:text="Points:"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+                app:layout_constraintTop_toBottomOf="@+id/radioGroupAnswer" />
 
             <EditText
                 android:id="@+id/pointReceiver"

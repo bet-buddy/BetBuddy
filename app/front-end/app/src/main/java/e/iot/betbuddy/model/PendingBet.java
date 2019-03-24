@@ -3,7 +3,7 @@ package e.iot.betbuddy.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Notification {
+public class PendingBet {
     private String receiver = "";
     private String receiverid = "";
     private String sender = "";
@@ -119,15 +119,4 @@ public class Notification {
 
     private String senderid = "";
     private String type = "";
-
-    public String getReceivertoken() {
-        return receivertoken;
-    }
-
-    public void setReceivertoken(String receivertoken) {
-        this.receivertoken = receivertoken;
-    }
-
-    private String receivertoken ="";
-    public Notification() {}
 }

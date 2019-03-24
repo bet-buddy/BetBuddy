@@ -159,6 +159,8 @@ public class BetSubmitActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         if(!(receiverName.isEmpty())) {
+
+
             RadioGroup groupButton = findViewById(R.id.radioTeam);
             final Notification notification = new Notification();
             if(groupButton.getCheckedRadioButtonId() == homeButton.getId()) notification.setSenderbet(homeButton.getText().toString());
@@ -167,6 +169,11 @@ public class BetSubmitActivity extends AppCompatActivity {
             notification.setSenderid(mAuth.getUid());
             notification.setAway_team(teams.get(1));
             notification.setHome_team(teams.get(0));
+
+            EditText pointText = findViewById(R.id.pointText);
+            int senderpoints = Integer.parseInt(pointText.getText().toString());
+
+            notification.setSenderpoints(senderpoints);
             List<Float> listOdds = new ArrayList<Float>();
             if(odds.geth2h().size()>2) {
                 listOdds.add(odds.geth2h().get(0));
@@ -187,7 +194,8 @@ public class BetSubmitActivity extends AppCompatActivity {
                             DocumentSnapshot d = queryDocumentSnapshots.getDocuments().get(0);
                             User receiver = d.toObject(User.class);
                             assert receiver != null;
-                            notification.setReceiverid(receiver.getToken());
+                            notification.setReceivertoken(receiver.getToken());
+                            notification.setReceiverid(receiver.getUid());
                             db.collection("Notifications").add(notification);
                             Intent intent = new Intent(BetSubmitActivity.this, LeagueActivity.class);
                             startActivity(intent);

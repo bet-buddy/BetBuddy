@@ -21,10 +21,13 @@ exports.sendNotification =  functions.firestore.document('Notifications/{Notific
             	home_team : notif.home_team,
             	away_team_odd : notif.odds[1].toString(),
             	home_team_odd : notif.odds[0].toString(),
-            	senderbet : notif.senderbet
+            	senderbet : notif.senderbet,
+            	senderpoints : notif.senderpoints.toString(),
+            	senderid : notif.senderid
+
             }
         };
-        return admin.messaging().sendToDevice(notif.receiverid,payload)
+        return admin.messaging().sendToDevice(notif.receivertoken,payload)
             .then(response => {
                 console.log("Successfully sent message: ",response);
                 return response;
