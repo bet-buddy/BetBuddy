@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -141,27 +142,32 @@ public class BetSubmitActivity extends AppCompatActivity {
         if(user==null){
             startActivity(new Intent(BetSubmitActivity.this,LoginActivity.class));
         }
+        EditText opponentText = findViewById(R.id.opponentText);
+        receiverName = opponentText.getText().toString();
 
+        if(!(receiverName.isEmpty())) {
+            final Notification notification = new Notification();
+            notification.setSender(user.getName());
+            notification.setSenderid(user.getUid());
 
-        final Notification notification = new Notification();
-        notification.setSender(user.getName());
-        notification.setSenderid(user.getUid());
-
-        notification.setReceiver(receiverName);
-        db.collection("users").whereEqualTo("name",receiverName).get().addOnSuccessListener(
-                new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        DocumentSnapshot d = queryDocumentSnapshots.getDocuments().get(0);
-                        User receiver = d.toObject(User.class);
-                        assert receiver != null;
-                        notification.setReceiverid(receiver.getToken());
-                        db.collection("Notifications").add(notification);
-                        Intent intent = new Intent(BetSubmitActivity.this, LeagueActivity.class);
-                        startActivity(intent);
+            notification.setReceiver(receiverName);
+            db.collection("users").whereEqualTo("name",receiverName).get().addOnSuccessListener(
+                    new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            DocumentSnapshot d = queryDocumentSnapshots.getDocuments().get(0);
+                            User receiver = d.toObject(User.class);
+                            assert receiver != null;
+                            notification.setReceiverid(receiver.getToken());
+                            db.collection("Notifications").add(notification);
+                            Intent intent = new Intent(BetSubmitActivity.this, LeagueActivity.class);
+                            startActivity(intent);
+                        }
                     }
-                }
-        );
+            );
+        }
+
+
 
     }
 
