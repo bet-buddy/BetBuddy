@@ -28,6 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 import e.iot.betbuddy.data.DataHolder;
+import e.iot.betbuddy.model.Group;
 import e.iot.betbuddy.model.League;
 import e.iot.betbuddy.model.Leagues;
 import e.iot.betbuddy.model.Sports;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private User user;
     private TextView mStatusView;
     private TextView mDetailView;
+
     private void retrieveData() {
 
         // Instantiate the RequestQueue.
@@ -131,12 +134,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ;
     }
+
+    public void retrieveUser() {
+        final String token = UserService.getInstance().retrieveUserToken();
+        mAuth = FirebaseAuth.getInstance();
+        final String UID = mAuth.getCurrentUser().getUid();
+        final String name = mAuth.getCurrentUser().getDisplayName();
+        db.collection("users").document(UID).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        User user = documentSnapshot.toObject(User.class);
+                        if(user!=null) {
+                            user.setToken(token);
+                            DataHolder.getInstance().save("user",user);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    new GroupFragment()).commit();
+                            Log.d("FIREBASE","already existing doc : "+user.toString());
+//                            Map<Object,Object> updatedUser = new HashMap<>();
+//                            updatedUser.put("uid",UID);
+//                            updatedUser.put("name",user.getName());
+//                            updatedUser.put("groupList",user.getGroupList());
+//                            updatedUser.put("token",user.getToken());
+//                            db.collection("users").document(UID).
+                            db.collection("users").document(UID).update("token",user.getToken());
+
+                        }
+                        else{
+                            Map<Object,Object> newUser = new HashMap<>();
+                            newUser.put("uid",UID);
+                            newUser.put("name",name);
+                            newUser.put("token",token);
+                            newUser.put("groupList",new ArrayList<Group>());
+                            db.collection("users").document(UID).set(newUser);
+
+                            User newUser2 = new User();
+                            newUser2.setToken(token);
+                            newUser2.setUid(UID);
+                            newUser2.setName((String)newUser.get("name"));
+                            newUser2.setGroupList(new ArrayList<Group>());
+                            DataHolder.getInstance().save("user",newUser2);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                    new GroupFragment()).commit();
+                            Log.d("USERSERVICE","added new user :"+newUser2.toString());
+                        }
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("USER FAILURE","Cannot retrieve user");
+            }
+        });
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        UserService.getInstance().retrieveUser();
+        //UserService.getInstance().retrieveUser();
         retrieveData();
 
 
@@ -161,9 +221,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.chat_item:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new GroupFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                //        new GroupFragment()).commit();
                 //startActivity(new Intent(MainActivity.this, GroupActivity.class));
+                retrieveUser();
                 break;
             case R.id.feat_item:
                 retrieveData();
