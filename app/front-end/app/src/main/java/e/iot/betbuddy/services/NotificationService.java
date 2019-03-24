@@ -20,6 +20,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 import java.util.Random;
 
+import e.iot.betbuddy.AnswerActivity;
 import e.iot.betbuddy.MainActivity;
 import e.iot.betbuddy.R;
 
@@ -63,8 +64,11 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentText(body)
                 .setContentInfo("Notification");
         // Create an Intent for the activity you want to start
-        Intent resultIntent = new Intent(this, MainActivity.class);
+        Intent resultIntent = new Intent(this, AnswerActivity.class);
+        resultIntent.putExtra("away_team",data.get("away_team"));
+        resultIntent.putExtra("away_team_odd",data.get("away_team_odd"));
         resultIntent.putExtra("home_team",data.get("home_team"));
+        resultIntent.putExtra("home_team_odd",data.get("home_team_odd"));
 // Create the TaskStackBuilder and add the intent, which inflates the back stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
