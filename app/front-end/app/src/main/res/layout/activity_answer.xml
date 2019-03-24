@@ -61,8 +61,14 @@
                 android:id="@+id/radioGroupAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:layout_editor_absoluteX="150dp"
-                tools:layout_editor_absoluteY="195dp">
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/oponentTextView">
 
                 <RadioButton
                     android:id="@+id/radioButtonhome"
