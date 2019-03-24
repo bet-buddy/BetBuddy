@@ -43,8 +43,8 @@
 
             <RadioGroup
                 android:id="@+id/radioTeam"
-                android:layout_width="wrap_content"
-                android:layout_height="62dp"
+                android:layout_width="159dp"
+                android:layout_height="93dp"
                 android:layout_marginStart="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="88dp"
@@ -64,6 +64,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Away Team" />
+
+                <RadioButton
+                    android:id="@+id/radioDraw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Draw" />
 
             </RadioGroup>
 

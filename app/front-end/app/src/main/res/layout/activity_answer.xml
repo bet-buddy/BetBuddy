@@ -84,6 +84,13 @@
                     android:layout_weight="1"
                     android:text="RadioButton" />
 
+                <RadioButton
+                    android:id="@+id/radioDraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Draw" />
+
             </RadioGroup>
 
             <android.support.design.widget.FloatingActionButton
