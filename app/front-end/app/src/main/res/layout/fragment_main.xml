@@ -31,7 +31,7 @@
             android:layout_height="174dp"
             android:layout_below="@+id/betTextView"
             android:layout_marginLeft="20dp"
-            app:srcCompat="@drawable/orlandomagic1" />
+            app:srcCompat="@drawable/magic1" />
 
         <TextView
             android:id="@+id/betTextView"
