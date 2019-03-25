@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Instantiate the RequestQueue.
         final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://api.the-odds-api.com/v3/sports/?apiKey=a59ac2c7edc94c6c8ffd8814724e0658";
+        String url = "https://api.the-odds-api.com/v3/sports/?apiKey=ee2283237e24a81a4c4389c486124d54";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

@@ -35,7 +35,7 @@ public class BetFragment extends Fragment  {
                 Sports leagueList = (Sports) (DataHolder.getInstance().retrieve("sports"));
                 Sport sport = leagueList.getData().get(position);
                 DataHolder.getInstance().save("sport", sport);
-                startActivity(new Intent(getActivity(), BetActivity.class));
+                startActivity(new Intent(getActivity(), LeagueActivity.class));
             }
         });
 

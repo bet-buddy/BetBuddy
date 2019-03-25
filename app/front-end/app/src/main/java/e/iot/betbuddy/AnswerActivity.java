@@ -47,6 +47,7 @@ public class AnswerActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private RadioButton awayButton;
     private RadioButton homeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,7 @@ public class AnswerActivity extends AppCompatActivity {
 
         home_team_name = intent.getStringExtra("home_team");
         away_team_name = intent.getStringExtra("away_team");
-        String game_title = home_team_name + " : "+away_team_name;
+        String game_title = home_team_name + " : " + away_team_name;
 
         home_team_odd = intent.getStringExtra("home_team_odd");
         away_team_odd = intent.getStringExtra("away_team_odd");
@@ -67,9 +68,8 @@ public class AnswerActivity extends AppCompatActivity {
         senderpoints = intent.getStringExtra("senderpoints");
 
 
-
         TextView oponenttextview = findViewById(R.id.oponentTextView);
-        oponenttextview.setText(sender+" bet on "+senderbet);
+        oponenttextview.setText(sender + " bet on " + senderbet);
 
         TextView homeTextView = findViewById(R.id.game_text_view);
         homeTextView.setText(game_title);
@@ -85,9 +85,8 @@ public class AnswerActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.radioButtonhome);
         awayButton = findViewById(R.id.radioButtonAway);
 
-        homeButton.setText(home_team_name+": "+home_team_odd);
-        awayButton.setText(away_team_name+ ": "+away_team_odd);
-
+        homeButton.setText(home_team_name + ": " + home_team_odd);
+        awayButton.setText(away_team_name + ": " + away_team_odd);
 
 
         setSupportActionBar(toolbar);
@@ -122,6 +121,7 @@ public class AnswerActivity extends AppCompatActivity {
                 });
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -131,6 +131,7 @@ public class AnswerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void signOut() {
         AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -161,7 +162,8 @@ public class AnswerActivity extends AppCompatActivity {
         pendingBet.setSenderpoints(Integer.parseInt(senderpoints));
 
         RadioGroup radioGroup = findViewById(R.id.radioGroupAnswer);
-        if(radioGroup.getCheckedRadioButtonId() == homeButton.getId()) pendingBet.setReceiverbet(home_team_name);
+        if (radioGroup.getCheckedRadioButtonId() == homeButton.getId())
+            pendingBet.setReceiverbet(home_team_name);
         else pendingBet.setReceiverbet(away_team_name);
 
         EditText pointsReceiver = findViewById(R.id.pointReceiver);
@@ -174,12 +176,11 @@ public class AnswerActivity extends AppCompatActivity {
         db.collection("Pendingbets").add(pendingBet).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Log.d("NEWPENDINGBET","successfully created a pending bet");
+                Log.d("NEWPENDINGBET", "successfully created a pending bet");
             }
         });
 
-        startActivity(new Intent(AnswerActivity.this,MainActivity.class));
-
+        startActivity(new Intent(AnswerActivity.this, MainActivity.class));
 
 
     }
