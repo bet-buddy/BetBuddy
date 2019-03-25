@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //UserService.getInstance().retrieveUser();
-        retrieveData();
+        //retrieveData();
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
