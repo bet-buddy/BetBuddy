@@ -22,6 +22,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class FavoriteFragment extends Fragment {
+
+    private Sport currentSport;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,12 +32,32 @@ public class FavoriteFragment extends Fragment {
         //ArrayList<Sport> leagueList = (ArrayList<Sport>) (DataHolder.getInstance().retrieve("leagues"));
 
         //get the spinner from the xml.
-        //Spinner dropdown = findViewById(R.id.spinner1);
+        Spinner dropdown1 = view.findViewById(R.id.spinner1);
+        LeagueAdapter leagueAdapter = new LeagueAdapter(this.getActivity());
+        dropdown1.setAdapter(leagueAdapter);
         //create a list of items for the spinner.
         //String[] items = new String[]{"1", "2", "three"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+
+        //SET ON CLICK NOW AND REMOVE ARRAYADAPTER
+
+        dropdown1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Sports leagueList = (Sports) (DataHolder.getInstance().retrieve("sports"));
+                currentSport = leagueList.getData().get(position);
+                populateTeams();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+
         //set the spinners adapter to the previously created one.
        // dropdown.setAdapter(adapter);
 
@@ -50,5 +73,9 @@ public class FavoriteFragment extends Fragment {
 //        });
 
         return view;
+    }
+
+    private void populateTeams() {
+
     }
 }
