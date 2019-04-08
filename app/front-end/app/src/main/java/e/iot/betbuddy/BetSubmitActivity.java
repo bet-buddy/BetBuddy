@@ -2,6 +2,7 @@ package e.iot.betbuddy;
 
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,15 +29,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import e.iot.betbuddy.adapters.LeagueAdapter;
 import e.iot.betbuddy.data.DataHolder;
 import e.iot.betbuddy.model.*;
-import e.iot.betbuddy.adapters.MatchupAdapter;
 import e.iot.betbuddy.services.UserService;
 
 public class BetSubmitActivity extends AppCompatActivity {
@@ -65,6 +61,10 @@ public class BetSubmitActivity extends AppCompatActivity {
         float awayOdd = bet.getSites().get(0).getOdds().geth2h().get(1);
         float homeOdd = bet.getSites().get(0).getOdds().geth2h().get(0);
         oddText.setText("Home: "+homeOdd+" Away: "+awayOdd);
+
+        TextView points = findViewById(R.id.points_submit);
+        points.setText("" + PointsFragment.getPoints());
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();

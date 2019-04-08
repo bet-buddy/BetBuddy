@@ -71,6 +71,8 @@ public class AnswerActivity extends AppCompatActivity {
         TextView homeTextView = findViewById(R.id.game_text_view);
         homeTextView.setText(game_title);
 
+        TextView points = findViewById(R.id.points_answer);
+        points.setText("" + PointsFragment.getPoints());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

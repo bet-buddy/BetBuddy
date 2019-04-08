@@ -18,7 +18,10 @@
             android:id="@+id/chat_item"
             android:icon="@drawable/ic_chat_black_24dp"
             android:title="@string/chat" />
-
+        <item
+            android:id="@+id/points_item"
+            android:icon="@drawable/ic_attach_money_black_24dp"
+            android:title="Get Points" />
 
     </group>
     <item

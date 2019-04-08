@@ -226,6 +226,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //startActivity(new Intent(MainActivity.this, GroupActivity.class));
                 retrieveUser();
                 break;
+            case R.id.points_item:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new PointsFragment()).commit();
+                break;
             case R.id.feat_item:
                 retrieveData();
                 //startActivity(new Intent(MainActivity.this, BetActivity.class));

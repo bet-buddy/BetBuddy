@@ -24,19 +24,43 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/points_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="160dp"
+                android:layout_marginRight="160dp"
+                android:layout_marginBottom="91dp"
+                android:text="100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/game_text_view" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="127dp"
+                android:layout_marginLeft="127dp"
+                android:text="Your Points:"
+                app:layout_constraintBaseline_toBaselineOf="@+id/points_answer"
+                app:layout_constraintEnd_toStartOf="@+id/points_answer"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
                 android:id="@+id/game_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="68dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="434dp"
                 android:text="@string/home_team_name"
                 android:textColor="@color/Blue80"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/points_answer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
