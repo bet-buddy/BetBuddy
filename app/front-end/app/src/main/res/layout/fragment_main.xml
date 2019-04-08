@@ -19,18 +19,19 @@
             android:layout_width="63dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/magicView"
-            android:layout_marginLeft="41dp"
-            android:layout_marginTop="191dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="214dp"
             android:layout_toRightOf="@+id/fulham"
             android:text="VS."
             android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/magicView"
-            android:layout_width="155dp"
-            android:layout_height="174dp"
+            android:layout_width="144dp"
+            android:layout_height="168dp"
             android:layout_below="@+id/betTextView"
-            android:layout_marginLeft="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="-20dp"
             app:srcCompat="@drawable/magic1" />
 
         <TextView
@@ -38,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Featured Bets"
+            android:text="Sponsored Bet:"
             android:textColor="#000"
             android:textSize="30sp" />
 
@@ -48,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/betTextView"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="17dp"
             android:layout_toRightOf="@+id/magicView"
             android:text="VS."
             android:textSize="30sp" />
@@ -67,24 +68,24 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="138dp"
-            android:layout_height="150dp"
+            android:layout_width="124dp"
+            android:layout_height="127dp"
             android:layout_below="@+id/betTextView"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="235dp"
-            android:layout_marginLeft="235dp"
-            android:layout_marginTop="19dp"
+            android:layout_marginStart="237dp"
+            android:layout_marginLeft="237dp"
+            android:layout_marginTop="0dp"
             android:layout_toRightOf="@+id/vstext1"
             app:srcCompat="@drawable/sixers2" />
 
         <ImageView
             android:id="@+id/fulham"
-            android:layout_width="109dp"
-            android:layout_height="132dp"
+            android:layout_width="114dp"
+            android:layout_height="112dp"
             android:layout_below="@+id/magicView"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="29dp"
             app:srcCompat="@drawable/fulham" />
 
         <TextView
@@ -92,31 +93,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/magicView"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="33dp"
             android:layout_toRightOf="@+id/fulham"
             android:text="VS."
             android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/mancity"
-            android:layout_width="133dp"
-            android:layout_height="440dp"
+            android:layout_width="115dp"
+            android:layout_height="373dp"
             android:layout_below="@+id/magicView"
-            android:layout_marginLeft="27dp"
+            android:layout_marginLeft="23dp"
 
-            android:layout_marginTop="-136dp"
+            android:layout_marginTop="-105dp"
             android:layout_toRightOf="@+id/vstext2"
             app:srcCompat="@drawable/mancity" />
 
         <ImageView
             android:id="@+id/mstate"
-            android:layout_width="171dp"
-            android:layout_height="177dp"
+            android:layout_width="155dp"
+            android:layout_height="170dp"
 
             android:layout_below="@+id/mancity"
-            android:layout_marginLeft="-11dp"
-            android:layout_marginTop="-138dp"
+            android:layout_marginLeft="-21dp"
+            android:layout_marginTop="-75dp"
             android:layout_toRightOf="@+id/vstext3"
             app:srcCompat="@drawable/michiganstate" />
 
@@ -125,8 +126,8 @@
             android:layout_width="47dp"
             android:layout_height="64dp"
             android:layout_below="@+id/vstext2"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/fulham"
             app:srcCompat="@drawable/premierleague3" />
 
@@ -136,18 +137,40 @@
             android:layout_height="70dp"
             android:layout_below="@+id/vstext3"
             android:layout_marginLeft="31dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/lsu"
             app:srcCompat="@drawable/ncaab" />
 
         <ImageView
             android:id="@+id/lsu"
-            android:layout_width="120dp"
-            android:layout_height="134dp"
+            android:layout_width="103dp"
+            android:layout_height="110dp"
             android:layout_below="@+id/fulham"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="68dp"
             app:srcCompat="@drawable/lsu" />
+
+        <TextView
+            android:id="@+id/tailored"
+            android:layout_width="332dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/bballicon"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp"
+            android:text="Tailored Bet (Man. City):"
+            android:textColor="#000"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/premierleague"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="3dp"
+            android:text="Latest Bet Result (MSU Win):"
+            android:textColor="#000"
+            android:textSize="26sp" />
 
     </RelativeLayout>
 
