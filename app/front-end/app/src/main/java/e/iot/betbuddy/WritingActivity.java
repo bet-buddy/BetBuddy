@@ -18,6 +18,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,7 +36,7 @@ import e.iot.betbuddy.model.User;
 public class WritingActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,12 +100,12 @@ public class WritingActivity extends AppCompatActivity {
     @SuppressLint("PrivateResource")
 
     public void sendMessage(View view) {
+        mAuth = FirebaseAuth.getInstance();
         HashMap<String,Object> message = new HashMap<>();
         User user = (User) DataHolder.getInstance().retrieve("user");
         EditText titleEditText = findViewById(R.id.title_editText);
         EditText contentEditText = findViewById(R.id.enter_message_editText);
-
-        message.put("author",user.getName());
+        message.put("author",mAuth.getCurrentUser().getDisplayName());
         message.put("title",titleEditText.getText().toString());
         message.put("content",contentEditText.getText().toString());
 
