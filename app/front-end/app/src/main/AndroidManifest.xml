@@ -32,6 +32,9 @@
             android:name=".LeagueActivity"
             android:label="@string/title_activity_league" />
         <activity android:name=".WritingActivity" />
+        <activity android:name=".AnswerActivity"
+            android:label="Answer Challenge"/>
+
         <activity
             android:name=".BetActivity"
             android:label="@string/title_activity_bet" />

@@ -1,10 +1,7 @@
 package e.iot.betbuddy;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -47,7 +43,7 @@ public class AnswerActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private RadioButton awayButton;
     private RadioButton homeButton;
-
+    private String topic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +63,8 @@ public class AnswerActivity extends AppCompatActivity {
 
         senderpoints = intent.getStringExtra("senderpoints");
 
-
+        topic = intent.getStringExtra("topic");
+        Log.d("TOPIC:",topic);
         TextView oponenttextview = findViewById(R.id.oponentTextView);
         oponenttextview.setText(sender + " bet on " + senderbet);
 
@@ -169,7 +166,7 @@ public class AnswerActivity extends AppCompatActivity {
         EditText pointsReceiver = findViewById(R.id.pointReceiver);
 
         pendingBet.setReceiverpoints(Integer.parseInt(pointsReceiver.getText().toString()));
-
+        pendingBet.setTopic(topic);
 
         pendingBet.setReceiverid(mAuth.getUid());
 
@@ -177,6 +174,7 @@ public class AnswerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Log.d("NEWPENDINGBET", "successfully created a pending bet");
+                TopicService.getInstance().subscribe(topic,AnswerActivity.this);
             }
         });
 

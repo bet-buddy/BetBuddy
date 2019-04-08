@@ -23,8 +23,8 @@ exports.sendNotification =  functions.firestore.document('Notifications/{Notific
             	home_team_odd : notif.odds[0].toString(),
             	senderbet : notif.senderbet,
             	senderpoints : notif.senderpoints.toString(),
-            	senderid : notif.senderid
-
+            	senderid : notif.senderid,
+            	topic : notif.topic
             }
         };
         return admin.messaging().sendToDevice(notif.receivertoken,payload)
@@ -36,3 +36,28 @@ exports.sendNotification =  functions.firestore.document('Notifications/{Notific
                 return console.log("Error sending messagge : ",error);
             })
     });
+
+
+exports.onBetCreate = functions.firestore.document('Pendingbets/{PendingBetId}').onCreate((snapshot,context) =>
+{
+	pendingBet = snapshot.data();
+	topic = pendingBet.topic;
+	console.log("topic = "+topic);
+	const payload = {
+            notification : {
+                title : 'Paul Estano won this bet!',
+                body : pendingBet.home_team + ' VS '+pendingBet.away_team
+            }
+        };
+    return new Promise((resolve,reject) => {setTimeout(()=>{
+    	return admin.messaging().sendToTopic(topic,payload)
+            .then(response => {
+                console.log("Successfully sent message: ",response);
+                return response;
+            })
+            .catch(error => {
+                return console.log("Error sending messagge : ",error);
+            })
+    },10000);});
+	
+});

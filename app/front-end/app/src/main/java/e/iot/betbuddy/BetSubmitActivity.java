@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import e.iot.betbuddy.adapters.LeagueAdapter;
 import e.iot.betbuddy.data.DataHolder;
@@ -169,6 +170,8 @@ public class BetSubmitActivity extends AppCompatActivity {
             notification.setSenderid(mAuth.getUid());
             notification.setAway_team(teams.get(1));
             notification.setHome_team(teams.get(0));
+
+            notification.setTopic(UUID.randomUUID().toString().replace("-",""));
 
             EditText pointText = findViewById(R.id.pointText);
             int senderpoints = Integer.parseInt(pointText.getText().toString());

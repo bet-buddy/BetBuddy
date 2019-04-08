@@ -30,7 +30,10 @@ public class NotificationService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 //        Log.d("data message test", remoteMessage.getData().get("test"));
-        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),remoteMessage.getData());
+        if(remoteMessage.getNotification() == null) {
+            Log.d("Message",remoteMessage.getMessageId());
+        }
+        else showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),remoteMessage.getData());
         //Log.d(TAG, remoteMessage.getNotification().getTitle() );
         //showNotification(remoteMessage.getData());
     }
@@ -73,9 +76,11 @@ public class NotificationService extends FirebaseMessagingService {
         resultIntent.putExtra("sender",data.get("sender"));
         resultIntent.putExtra("senderpoints",data.get("senderpoints"));
         resultIntent.putExtra("senderid",data.get("senderid"));
+        resultIntent.putExtra("topic",data.get("topic"));
 // Create the TaskStackBuilder and add the intent, which inflates the back stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        stackBuilder.addParentStack(AnswerActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
 // Get the PendingIntent containing the entire back stack
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);

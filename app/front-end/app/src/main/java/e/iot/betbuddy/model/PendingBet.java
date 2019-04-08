@@ -8,6 +8,15 @@ public class PendingBet {
     private String receiverid = "";
     private String sender = "";
 
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    private String topic = "";
     public int getSenderpoints() {
         return senderpoints;
     }
