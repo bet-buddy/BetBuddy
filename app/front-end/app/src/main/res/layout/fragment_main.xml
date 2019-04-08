@@ -116,7 +116,7 @@
             android:layout_height="170dp"
 
             android:layout_below="@+id/mancity"
-            android:layout_marginLeft="-21dp"
+            android:layout_marginLeft="-16dp"
             android:layout_marginTop="-75dp"
             android:layout_toRightOf="@+id/vstext3"
             app:srcCompat="@drawable/michiganstate" />
@@ -136,8 +136,8 @@
             android:layout_width="51dp"
             android:layout_height="70dp"
             android:layout_below="@+id/vstext3"
-            android:layout_marginLeft="31dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="9dp"
             android:layout_toRightOf="@+id/lsu"
             app:srcCompat="@drawable/ncaab" />
 
@@ -146,7 +146,7 @@
             android:layout_width="103dp"
             android:layout_height="110dp"
             android:layout_below="@+id/fulham"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="68dp"
             app:srcCompat="@drawable/lsu" />
 
@@ -155,18 +155,18 @@
             android:layout_width="332dp"
             android:layout_height="50dp"
             android:layout_below="@+id/bballicon"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginTop="40dp"
             android:text="Tailored Bet (Man. City):"
             android:textColor="#000"
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/latest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/premierleague"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="23dp"
             android:layout_marginTop="3dp"
             android:text="Latest Bet Result (MSU Win):"
             android:textColor="#000"
