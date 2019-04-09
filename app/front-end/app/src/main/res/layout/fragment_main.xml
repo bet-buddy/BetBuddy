@@ -19,7 +19,7 @@
             android:layout_width="63dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/magicView"
-            android:layout_marginLeft="26dp"
+            android:layout_marginLeft="28dp"
             android:layout_marginTop="214dp"
             android:layout_toRightOf="@+id/fulham"
             android:text="VS."
@@ -27,12 +27,12 @@
 
         <ImageView
             android:id="@+id/magicView"
-            android:layout_width="144dp"
-            android:layout_height="168dp"
+            android:layout_width="137dp"
+            android:layout_height="114dp"
             android:layout_below="@+id/betTextView"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="-20dp"
-            app:srcCompat="@drawable/magic1" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7dp"
+            app:srcCompat="@drawable/miamiheat2" />
 
         <TextView
             android:id="@+id/betTextView"
@@ -73,9 +73,9 @@
             android:layout_below="@+id/betTextView"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="237dp"
-            android:layout_marginLeft="237dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginStart="244dp"
+            android:layout_marginLeft="244dp"
+            android:layout_marginTop="-2dp"
             android:layout_toRightOf="@+id/vstext1"
             app:srcCompat="@drawable/sixers2" />
 
@@ -85,8 +85,8 @@
             android:layout_height="112dp"
             android:layout_below="@+id/magicView"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="29dp"
-            app:srcCompat="@drawable/fulham" />
+            android:layout_marginTop="46dp"
+            app:srcCompat="@drawable/tottenham" />
 
         <TextView
             android:id="@+id/vstext2"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/magicView"
             android:layout_marginLeft="27dp"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="42dp"
             android:layout_toRightOf="@+id/fulham"
             android:text="VS."
             android:textSize="30sp" />
@@ -104,22 +104,22 @@
             android:layout_width="115dp"
             android:layout_height="373dp"
             android:layout_below="@+id/magicView"
-            android:layout_marginLeft="23dp"
+            android:layout_marginLeft="39dp"
 
-            android:layout_marginTop="-105dp"
+            android:layout_marginTop="-85dp"
             android:layout_toRightOf="@+id/vstext2"
             app:srcCompat="@drawable/mancity" />
 
         <ImageView
             android:id="@+id/mstate"
-            android:layout_width="155dp"
-            android:layout_height="170dp"
+            android:layout_width="125dp"
+            android:layout_height="95dp"
 
             android:layout_below="@+id/mancity"
-            android:layout_marginLeft="-16dp"
-            android:layout_marginTop="-75dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="-70dp"
             android:layout_toRightOf="@+id/vstext3"
-            app:srcCompat="@drawable/michiganstate" />
+            app:srcCompat="@drawable/texastech" />
 
         <ImageView
             android:id="@+id/premierleague"
@@ -127,7 +127,7 @@
             android:layout_height="64dp"
             android:layout_below="@+id/vstext2"
             android:layout_marginLeft="26dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="17dp"
             android:layout_toRightOf="@+id/fulham"
             app:srcCompat="@drawable/premierleague3" />
 
@@ -137,18 +137,18 @@
             android:layout_height="70dp"
             android:layout_below="@+id/vstext3"
             android:layout_marginLeft="27dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="-4dp"
             android:layout_toRightOf="@+id/lsu"
             app:srcCompat="@drawable/ncaab" />
 
         <ImageView
             android:id="@+id/lsu"
-            android:layout_width="103dp"
-            android:layout_height="110dp"
+            android:layout_width="113dp"
+            android:layout_height="115dp"
             android:layout_below="@+id/fulham"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="68dp"
-            app:srcCompat="@drawable/lsu" />
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="53dp"
+            app:srcCompat="@drawable/uva" />
 
         <TextView
             android:id="@+id/tailored"
@@ -168,7 +168,7 @@
             android:layout_below="@+id/premierleague"
             android:layout_marginLeft="23dp"
             android:layout_marginTop="3dp"
-            android:text="Latest Bet Result (MSU Win):"
+            android:text="Latest Bet Result (UVA Win):"
             android:textColor="#000"
             android:textSize="26sp" />
 
