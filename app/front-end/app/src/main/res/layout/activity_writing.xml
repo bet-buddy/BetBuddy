@@ -35,48 +35,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_send" />
 
-    <EditText
-
-        android:textColorHint="@color/browser_actions_divider_color"
-        android:id="@+id/title_editText"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:hint="@string/title"
-        android:inputType="textPersonName"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:ellipsize="end" />
-
             <EditText
 
-                android:id="@+id/enter_message_editText"
+                android:id="@+id/title_editText"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:accessibilityHeading="false"
                 android:ellipsize="end"
                 android:ems="10"
                 android:hint="@string/hint_enter_message"
-                android:inputType="textImeMultiLine"
+                android:inputType="textPersonName"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/browser_actions_divider_color"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_editText" />
-</android.support.constraint.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        </android.support.constraint.ConstraintLayout>
     </FrameLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

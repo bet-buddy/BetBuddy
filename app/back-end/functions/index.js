@@ -43,9 +43,31 @@ exports.onBetCreate = functions.firestore.document('Pendingbets/{PendingBetId}')
 	pendingBet = snapshot.data();
 	topic = pendingBet.topic;
 	console.log("topic = "+topic);
+	betSender = pendingBet.senderbet;
+	receiverBet = pendingBet.receiverBet;
+	betSenderHome = true;
+	if(betSender === pendingBet.away_team) {
+		betSenderHome = false;
+	}
+
+	homeLucky = (pendingBet.odds[0]> pendingBet.odds[1]);
+	titlePayload = pendingBet.sender;
+	if(!homeLucky) {
+		if(betSenderHome) {
+			titlePayload = pendingBet.receiver;	
+		}
+
+	} 
+	if(!betSenderHome) {
+		if(homeLucky) {
+			titlePayload = pendingBet.receiver;
+		}
+	}
+
+	titlePayload += ' won this bet';
 	const payload = {
             notification : {
-                title : 'Paul Estano won this bet!',
+                title : titlePayload,
                 body : pendingBet.home_team + ' VS '+pendingBet.away_team
             }
         };

@@ -180,7 +180,7 @@ public class AnswerActivity extends AppCompatActivity {
             }
         });
 
-        startActivity(new Intent(AnswerActivity.this, MainActivity.class));
+        startActivity(new Intent(AnswerActivity.this, GroupActivity.class));
 
 
     }

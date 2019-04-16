@@ -104,10 +104,10 @@ public class WritingActivity extends AppCompatActivity {
         HashMap<String,Object> message = new HashMap<>();
         User user = (User) DataHolder.getInstance().retrieve("user");
         EditText titleEditText = findViewById(R.id.title_editText);
-        EditText contentEditText = findViewById(R.id.enter_message_editText);
+//        EditText contentEditText = findViewById(R.id.enter_message_editText);
         message.put("author",mAuth.getCurrentUser().getDisplayName());
         message.put("title",titleEditText.getText().toString());
-        message.put("content",contentEditText.getText().toString());
+//        message.put("content",contentEditText.getText().toString());
 
         String mid = UUID.randomUUID().toString();
 

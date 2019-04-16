@@ -200,7 +200,7 @@ public class BetSubmitActivity extends AppCompatActivity {
                             notification.setReceivertoken(receiver.getToken());
                             notification.setReceiverid(receiver.getUid());
                             db.collection("Notifications").add(notification);
-                            Intent intent = new Intent(BetSubmitActivity.this, LeagueActivity.class);
+                            Intent intent = new Intent(BetSubmitActivity.this, GroupActivity.class);
                             startActivity(intent);
                         }
                     }

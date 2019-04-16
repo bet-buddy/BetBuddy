@@ -73,10 +73,6 @@ public class MessageAdapter extends BaseAdapter {
         TextView titleTextView = rowMain.findViewById(R.id.title_TextView);
         titleTextView.setText(group.messages.get(position).title);
 
-
-        TextView contentView = rowMain.findViewById(R.id.message_TextView);
-        contentView.setText(group.messages.get(position).content);
-
         TextView authorView =rowMain.findViewById(R.id.author_textView);
         authorView.setText(group.messages.get(position).author);
 

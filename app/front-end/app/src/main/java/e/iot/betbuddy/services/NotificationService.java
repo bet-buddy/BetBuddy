@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Random;
 
 import e.iot.betbuddy.AnswerActivity;
+import e.iot.betbuddy.GroupActivity;
 import e.iot.betbuddy.MainActivity;
 import e.iot.betbuddy.R;
 
@@ -35,7 +36,10 @@ public class NotificationService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 //        Log.d("data message test", remoteMessage.getData().get("test"));
-        if(remoteMessage.getNotification() == null) {
+        if(remoteMessage.getData() == null) {
+
+            showWinner(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+
             Log.d("Message",remoteMessage.getMessageId());
         }
         else showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),remoteMessage.getData());
@@ -43,6 +47,40 @@ public class NotificationService extends FirebaseMessagingService {
         //showNotification(remoteMessage.getData());
     }
 
+    private void showWinner(String title, String body) {
+
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        String NOTIFICATION_CHANNEL_ID = "e.iot.betbuddy.test";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,"Notification", NotificationManager.IMPORTANCE_DEFAULT);
+
+
+            notificationChannel.setDescription("Channel");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.BLUE);
+            notificationChannel.setVibrationPattern(new long[] {0,1000,500,1000});
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_launch)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setContentInfo("Notification");
+        Intent resultIntent = new Intent(this, GroupActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(GroupActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+// Get the PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.setContentIntent(resultPendingIntent);
+        notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
+    }
     private void showNotification(String title, String body,Map<String,String> data) {
 
         Log.d(TAG,"notif received");
