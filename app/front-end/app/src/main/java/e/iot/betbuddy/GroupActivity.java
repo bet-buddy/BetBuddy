@@ -66,6 +66,7 @@ public class GroupActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void signOut() {
         AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

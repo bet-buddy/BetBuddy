@@ -14,6 +14,8 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -26,6 +28,9 @@ import e.iot.betbuddy.R;
 
 public class NotificationService extends FirebaseMessagingService {
     private String TAG = "NOTIFICATIONS";
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -100,6 +105,9 @@ public class NotificationService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         super.onNewToken(token);
         Log.d(TAG, "Refreshed token: " + token);
+        String UID = FirebaseAuth.getInstance().getUid();
+        db.collection("users").document(UID).update("token",token);
+
     }
 
 }
